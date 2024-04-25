@@ -5,6 +5,5 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace OrderDomain.Enums;
-internal class OrderType
-{
-}
+
+internal class OrderType { }

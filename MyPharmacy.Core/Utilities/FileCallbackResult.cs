@@ -1,16 +1,17 @@
-﻿using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
 
 namespace MyPharmacy.Core.Utilities;
 
 public class FileCallbackResult(
     MediaTypeHeaderValue contentType,
     Func<Stream, ActionContext, Task> callback
-)
-    : IActionResult
+) : IActionResult
 {
-    private readonly MediaTypeHeaderValue _contentType = contentType ?? throw new ArgumentNullException(nameof(contentType));
-    private readonly Func<Stream, ActionContext, Task> _callback = callback ?? throw new ArgumentNullException(nameof(callback));
+    private readonly MediaTypeHeaderValue _contentType =
+        contentType ?? throw new ArgumentNullException(nameof(contentType));
+    private readonly Func<Stream, ActionContext, Task> _callback =
+        callback ?? throw new ArgumentNullException(nameof(callback));
 
     public Task ExecuteResultAsync(ActionContext context)
     {

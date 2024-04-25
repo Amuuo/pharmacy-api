@@ -1,4 +1,5 @@
-﻿using MyPharmacy.Core.Utilities.Interfaces;
+﻿using MyPharmacy.Core.Utilities;
+using MyPharmacy.Core.Utilities.Interfaces;
 using MyPharmacy.Data.Entities;
 
 namespace MyPharmacy.Services.Interfaces;
@@ -12,17 +13,17 @@ public interface IReportingService
     /// Retrieves the warehouse profit data asynchronously.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation. The task result contains the warehouse profit data.</returns>
-    Task<IServiceResult<IAsyncEnumerable<VwWarehouseProfit>>> GetWarehouseProfitAsync();
-    
+    Result<IAsyncEnumerable<VwWarehouseProfit>> GetWarehouseProfitAsync();
+
     /// <summary>
     /// Retrieves the delivery detail data asynchronously.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation. The task result contains the delivery detail data.</returns>
-    Task<IServiceResult<IAsyncEnumerable<VwDeliveryDetail>>> GetDeliveryDetailAsync();
+    Result<IAsyncEnumerable<VwDeliveryDetail>> GetDeliveryDetailAsync();
 
     /// <summary>
     /// Retrieves the pharmacist sales summary data asynchronously.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation. The task result contains the pharmacist sales summary data.</returns>
-    Task<IServiceResult<IAsyncEnumerable<VwPharmacistSalesSummary>>> GetPharmacistSalesSummaryAsync();
+    Result<IAsyncEnumerable<VwPharmacistSalesSummary>> GetPharmacistSalesSummaryAsync();
 }

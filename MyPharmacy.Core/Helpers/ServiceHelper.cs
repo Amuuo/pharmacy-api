@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Text.Json;
+﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -18,30 +15,13 @@ public static class ServiceHelper
     /// <typeparam name="T">The type of the result.</typeparam>
     /// <param name="message">The error message.</param>
     /// <returns>The service result with no content.</returns>
-    public static IServiceResult<T?> BuildNoContentResult<T>(string message)
+    public static Result<T?> BuildNoContentResult<T>(string message)
     {
-        return new ServiceResult<T?>
+        return new Result<T?>
         {
-            IsSuccess    = false,
+            IsSuccess = false,
             ErrorMessage = message,
-            StatusCode   = HttpStatusCode.NotFound
-        };
-    }
-
-    /// <summary>
-    /// Builds an error service result.
-    /// </summary>
-    /// <typeparam name="T">The type of the result.</typeparam>
-    /// <param name="ex">The exception that occurred.</param>
-    /// <param name="operation">The operation being performed.</param>
-    /// <returns>The error service result.</returns>
-    public static IServiceResult<T?> BuildErrorServiceResult<T>(Exception ex, string operation)
-    {
-        return new ServiceResult<T?>
-        {
-            IsSuccess    = false,
-            ErrorMessage = $"An error occurred while {operation}, ex: {ex}",
-            StatusCode   = HttpStatusCode.InternalServerError
+            StatusCode = HttpStatusCode.NotFound
         };
     }
 
@@ -51,80 +31,48 @@ public static class ServiceHelper
     /// <typeparam name="T">The type of the result.</typeparam>
     /// <param name="result">The result.</param>
     /// <returns>The success service result.</returns>
-    public static IServiceResult<T?> BuildSuccessServiceResult<T>(T? result)
+    public static Result<T?> BuildSuccessServiceResult<T>(T? result)
     {
-        return new ServiceResult<T?>
+        return new Result<T?>
         {
-            IsSuccess  = true,
-            Result     = result,
+            IsSuccess = true,
+            Response = result,
             StatusCode = HttpStatusCode.OK
         };
     }
 
-    public static IActionResult HandleStreamingResponse<T>(this IServiceResult<IAsyncEnumerable<T>> serviceResponse)
-    {
-        if (!serviceResponse.IsSuccess)
-        {
-            return new ContentResult
-            {
-                Content    = serviceResponse.ErrorMessage,
-                StatusCode = (int)serviceResponse.StatusCode
-            };
-        }
+    //public static IActionResult HandlePagedStreamingResponse<T>(
+    //    this IResult<IPagedResult<T>> result,
+    //    MediaTypeHeaderValue? contentType = null)
+    //{
+    //    if (!result.IsSuccess)
+    //    {
+    //        return new ContentResult
+    //        {
+    //            Content    = result.ErrorMessage,
+    //            StatusCode = (int)result.StatusCode
+    //        };
+    //    }
 
-        var streamData = serviceResponse.Result;
+    //    contentType ??= new MediaTypeHeaderValue("application/stream+json");
 
-        return new FileCallbackResult(
-            new MediaTypeHeaderValue("application/stream+json"), 
-            async (outputStream, context) =>
-            {
-              await using var writer = new StreamWriter(outputStream);
-              Debug.Assert(streamData != null, nameof(streamData) + " != null");
-              await foreach (var item in streamData)
-              {
-                  var json = JsonSerializer.Serialize(item);
-                  await writer.WriteAsync(json);
-                  await writer.FlushAsync();
-              }
-            });
-    }
-
-
-    public static IActionResult HandlePagedStreamingResponse<T>(
-        this IServiceResult<IPagedResult<T>> serviceResult,
-        MediaTypeHeaderValue? contentType = null)
-    {
-        if (!serviceResult.IsSuccess)
-        {
-            return new ContentResult
-            {
-                Content    = serviceResult.ErrorMessage,
-                StatusCode = (int)serviceResult.StatusCode
-            };
-        }
-
-        contentType ??= new MediaTypeHeaderValue("application/stream+json");
-
-        return new StreamingWithHeadersResult<T>(serviceResult.Result, contentType);
-    }
+    //    return new StreamingWithHeadersResult<T>(result.Response, contentType);
+    //}
 
     /// <summary>
     /// Handles the service response and returns an appropriate action result.
     /// </summary>
     /// <typeparam name="T">The type of the result.</typeparam>
-    /// <param name="serviceResponse">The service response.</param>
+    /// <param name="response">The service response.</param>
     /// <returns>The action result.</returns>
-    public static IActionResult HandleResponse<T>(this IServiceResult<T> serviceResponse)
+    public static IActionResult HandleResponse<T>(this IResult<T> response)
     {
-        return serviceResponse.IsSuccess
-            ? new ObjectResult(serviceResponse.Result)
-            {
-                StatusCode = (int)serviceResponse.StatusCode
-            }
+        return response.IsSuccess
+            ? new ObjectResult(response.Response) { StatusCode = (int)response.StatusCode }
             : new ContentResult
             {
-                Content    = serviceResponse.ErrorMessage,
-                StatusCode = (int)serviceResponse.StatusCode
+                Content = response.ErrorMessage,
+                StatusCode = (int)response.StatusCode
             };
     }
 
@@ -137,26 +85,26 @@ public static class ServiceHelper
     /// <param name="pageNumber">The page number.</param>
     /// <param name="pageSize">The page size.</param>
     /// <returns>The paged result.</returns>
-    public static async Task<IServiceResult<IPagedResult<T>>> GetPagedResultAsync<T>(
-        ILogger logger,
-        IQueryable<T> query, 
-        PagingInfo pagingInfo) where T : class
-    {
-        var startRow = pagingInfo.Page * pagingInfo.Take;
+    //public static async Task<IResult<IPagedResult<T>>> GetPagedResultAsync<T>(
+    //    ILogger logger,
+    //    IQueryable<T> query,
+    //    PagingInfo pagingInfo) where T : class
+    //{
+    //    var startRow = pagingInfo.PageNumber * pagingInfo.PageSize;
 
-        var entities = query
-            .AsQueryable()
-            .AsNoTracking()
-            .Skip(startRow)
-            .Take(pagingInfo.Take)
-            .AsEnumerable();
+    //    var entities = query
+    //        .AsQueryable()
+    //        .AsNoTracking()
+    //        .Skip(startRow)
+    //        .PageSize(pagingInfo.PageSize)
+    //        .AsEnumerable();
 
 
-        return await BuildPagedServiceResultAsync<T>(
-            entities,
-            pagingInfo,
-            await query.CountAsync());
-    }
+    //    return await BuildPagedServiceResultAsync<T>(
+    //        entities,
+    //        pagingInfo,
+    //        await query.CountAsync());
+    //}
 
     /// <summary>
     /// Builds a paged service result asynchronously.
@@ -167,20 +115,19 @@ public static class ServiceHelper
     /// <param name="pageSize">The page size.</param>
     /// <param name="totalCount">The total count of items.</param>
     /// <returns>The paged service result.</returns>
-    public static Task<IServiceResult<IPagedResult<T>>> BuildPagedServiceResultAsync<T>(
-        IEnumerable<T> data, 
-        PagingInfo pagingInfo, 
-        int totalCount) where T : class
-    {
-        var pagedResult = new PagedResult<T>
-        {
-            PagingInfo = pagingInfo,
-            Total      = totalCount,
-            Pages      = (int)Math.Ceiling(totalCount / (double)pagingInfo.Take),
-            Data       = data
-        };
+    //public static Task<IResult<IPagedResult<T>>> BuildPagedServiceResultAsync<T>(
+    //    IEnumerable<T> data,
+    //    PagingInfo pagingInfo,
+    //    int totalCount) where T : class
+    //{
+    //    var pagedResult = new PagedResult<T>
+    //    {
+    //        PagingInfo = pagingInfo,
+    //        Count      = totalCount,
+    //        Pages      = (int)Math.Ceiling(totalCount / (double)pagingInfo.PageSize),
+    //        Data       = data
+    //    };
 
-        return Task.FromResult(BuildSuccessServiceResult<IPagedResult<T>>(pagedResult));
-    }
+    //    return Task.FromResult(BuildSuccessServiceResult<IPagedResult<T>>(pagedResult));
+    //}
 }
-

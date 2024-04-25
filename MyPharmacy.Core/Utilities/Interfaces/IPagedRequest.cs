@@ -2,6 +2,6 @@
 
 public interface IPagedRequest
 {
-    int Page { get; set; }
-    int Take   { get; set; }
+    int PageNumber { get; set; }
+    int PageSize { get; set; }
 }

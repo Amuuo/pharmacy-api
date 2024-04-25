@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!--<UserSecretsId>aspnet-PharmacyApi-b12dadd8-f0d9-44b1-89d2-a55d0cf724be</UserSecretsId>-->
   </PropertyGroup>
 
@@ -38,6 +39,10 @@
     <ProjectReference Include="..\MyPharmacy.Core\MyPharmacy.Core.csproj" />
     <ProjectReference Include="..\MyPharmacy.Data\MyPharmacy.Data.csproj" />
     <ProjectReference Include="..\MyPharmacy.Services\MyPharmacy.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Middleware\" />
   </ItemGroup>
 
 </Project>

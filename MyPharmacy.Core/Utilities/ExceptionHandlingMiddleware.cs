@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Http;
 using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace MyPharmacy.Core.Utilities;
 
@@ -20,13 +20,15 @@ public class ExceptionHandlingMiddleware(RequestDelegate next)
     private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode  = (int)HttpStatusCode.InternalServerError;
+        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-        return context.Response.WriteAsync(new ErrorDetails
-        {
-            StatusCode = context.Response.StatusCode,
-            Message    = "An error occurred while processing your request."
-        }.ToString());
+        return context.Response.WriteAsync(
+            new ErrorDetails
+            {
+                StatusCode = context.Response.StatusCode,
+                Message = "An error occurred while processing your request."
+            }.ToString()
+        );
     }
 }
 

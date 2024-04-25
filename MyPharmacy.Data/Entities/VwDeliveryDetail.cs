@@ -3,7 +3,7 @@
 public partial class VwDeliveryDetail
 {
     //public int VwDeliveryDetailId { get; set; }
-    
+
     public string WarehouseFrom { get; set; } = null!;
 
     public string PharmacyTo { get; set; } = null!;

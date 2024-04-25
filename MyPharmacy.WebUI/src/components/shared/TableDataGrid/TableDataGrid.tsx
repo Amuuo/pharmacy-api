@@ -1,13 +1,13 @@
 // TableDataGrid.tsx
-import React from 'react';
-import { Pharmacy } from '../../../models/pharmacy';
+import React from "react";
+import { Pharmacy } from "../../../models/pharmacy";
 export interface Column {
-    field: string;
-    headerName: string;
-    editable?: boolean;
-    width?: number;
-    flex?: number;
-  }
+  field: string;
+  headerName: string;
+  editable?: boolean;
+  width?: number;
+  flex?: number;
+}
 
 interface TableGridProps {
   columns: Column[];
@@ -19,12 +19,12 @@ interface TableGridProps {
 
 const TableDataGrid: React.FC<TableGridProps> = ({
   columns,
-  data,  
+  data,
   onEditCellChange,
-  onRowSelection
+  onRowSelection,
 }) => {
   const handleRowClick = (id: number) => {
-    if(onRowSelection) {
+    if (onRowSelection) {
       onRowSelection(id);
     }
   };
@@ -32,7 +32,7 @@ const TableDataGrid: React.FC<TableGridProps> = ({
   // Cell editing logic will be more complex and might need states
   // Here is a basic scaffold
   const handleCellEdit = (updatedPharmacy: Pharmacy) => {
-    if(onEditCellChange) {
+    if (onEditCellChange) {
       onEditCellChange(updatedPharmacy);
     }
   };

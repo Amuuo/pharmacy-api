@@ -1,19 +1,17 @@
 ﻿using System.Data;
-using MyPharmacy.Data.Entities;
 using Dapper;
-using MyPharmacy.Data.Repository.Interfaces;
 using MyPharmacy.Core.Utilities;
 using MyPharmacy.Core.Utilities.Interfaces;
+using MyPharmacy.Data.Entities;
+using MyPharmacy.Data.Repository.Interfaces;
 
 namespace MyPharmacy.Data.Repository;
 
 /// <summary>
 /// Represents a repository for managing pharmacy data.
 /// </summary>
-public class PharmacyRepository(
-    IDbConnection dbConnection) : IPharmacyRepository
+public class PharmacyRepository(IDbConnection dbConnection) : IPharmacyRepository
 {
-    
     /// <summary>
     /// Retrieves a paged list of pharmacies asynchronously.
     /// </summary>
@@ -21,11 +19,9 @@ public class PharmacyRepository(
     /// <returns>A task that represents the asynchronous operation. The task result contains the paged result of pharmacies.</returns>
     public async Task<IPagedResult<Pharmacy>?> GetPharmacyListPagedAsync(PagingInfo pagingInfo)
     {
-        var parameters = new DynamicParameters(new
-        {
-            pagingInfo.Page, 
-            pagingInfo.Take,                        
-        });
+        var parameters = new DynamicParameters(
+            new { Page = pagingInfo.PageNumber, Take = pagingInfo.PageSize, }
+        );
 
         parameters.Add("Count", dbType: DbType.Int32, direction: ParameterDirection.Output);
         parameters.Add("Pages", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -38,13 +34,12 @@ public class PharmacyRepository(
 
         return new PagedResult<Pharmacy>
         {
-            Data       = pharmacies,
+            Data = pharmacies,
             PagingInfo = pagingInfo,
-            Total      = parameters.Get<int>("Count"),
-            Pages      = parameters.Get<int>("Pages")
+            Count = parameters.Get<int>("Count"),
+            Pages = parameters.Get<int>("Pages")
         };
     }
-
 
     /// <summary>
     /// Retrieves a pharmacy by its ID asynchronously.
@@ -62,13 +57,12 @@ public class PharmacyRepository(
         return pharmacy;
     }
 
-
     /// <summary>
     /// Inserts a new pharmacy record asynchronously.
     /// </summary>
     /// <param name="pharmacy">The pharmacy object to be inserted.</param>
     /// <returns>The inserted pharmacy object.</returns>
-    public async Task<Pharmacy?> InsertPharmacyAsync(Pharmacy pharmacy)
+    public async Task<Pharmacy?> InsertPharmacyAsync(Pharmacy? pharmacy)
     {
         var insertedPharmacy = await dbConnection.QueryFirstOrDefaultAsync<Pharmacy>(
             "spInsertPharmacy",
@@ -88,14 +82,13 @@ public class PharmacyRepository(
         return insertedPharmacy;
     }
 
-
     /// <summary>
     /// Updates a pharmacy asynchronously.
     /// </summary>
     /// <param name="pharmacy">The pharmacy object to update.</param>
     /// <returns>The updated pharmacy object.</returns>
     public async Task<Pharmacy?> UpdatePharmacyAsync(Pharmacy pharmacy)
-    {        
+    {
         var updatedPharmacy = await dbConnection.QueryFirstOrDefaultAsync<Pharmacy>(
             "spUpdatePharmacy",
             new
@@ -107,7 +100,7 @@ public class PharmacyRepository(
                 pharmacy.State,
                 pharmacy.Zip,
                 pharmacy.PrescriptionsFilled,
-                pharmacy.ModifiedBy 
+                pharmacy.ModifiedBy
             },
             commandType: CommandType.StoredProcedure
         );
@@ -118,11 +111,8 @@ public class PharmacyRepository(
     public async Task<IEnumerable<Pharmacy>?> GetPharmaciesByPharmacistIdAsync(int pharmacistId)
     {
         var pharmacyList = await dbConnection.QueryAsync<Pharmacy>(
-            "spGetPharmaciesByPharmacistId", 
-            new
-            {
-                pharmacistId
-            }, 
+            "spGetPharmaciesByPharmacistId",
+            new { pharmacistId },
             commandType: CommandType.StoredProcedure
         );
 

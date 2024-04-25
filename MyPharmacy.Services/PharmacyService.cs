@@ -12,91 +12,80 @@ using MyPharmacy.Services.Interfaces;
 namespace MyPharmacy.Services;
 
 public class PharmacyService(
-    ILogger<IPharmacyService> logger, 
-    IPharmacyDbContext pharmacyDbContext, 
-    IPharmacyRepository pharmacyRepository, 
-    IMemoryCache cache) : IPharmacyService
+    ILogger<IPharmacyService> logger,
+    IPharmacyDbContext pharmacyDbContext,
+    IPharmacyRepository pharmacyRepository,
+    IMemoryCache cache
+) : IPharmacyService
 {
-
     /// <inheritdoc/>
-    public async Task<IServiceResult<IPagedResult<Pharmacy>?>> GetPharmacyListPagedAsync(PagingInfo pagingInfo)
+    public async Task<IResult<IPagedResult<Pharmacy>?>> GetPharmacyListPagedAsync(
+        PagingInfo pagingInfo
+    )
     {
-        var cacheKey = $"PharmacyList_{pagingInfo.Page}_{pagingInfo.Take}";
+        var cacheKey = $"PharmacyList_{pagingInfo.PageNumber}_{pagingInfo.PageSize}";
 
-        var cachedPharmacyListPaged = await cache.GetOrCreateAsync(cacheKey, x => 
-        {
-            x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
-            return pharmacyRepository.GetPharmacyListPagedAsync(pagingInfo);
-        });
+        var cachedPharmacyListPaged = await cache.GetOrCreateAsync(
+            cacheKey,
+            x =>
+            {
+                x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
+                return pharmacyRepository.GetPharmacyListPagedAsync(pagingInfo);
+            }
+        );
 
-        return ServiceHelper.BuildSuccessServiceResult(cachedPharmacyListPaged);
+        return new Result<IPagedResult<Pharmacy>?>(cachedPharmacyListPaged);
     }
-    
 
     /// <inheritdoc/>
-    public async Task<IServiceResult<Pharmacy?>> UpdatePharmacyAsync(Pharmacy updatedPharmacy)
+    public async Task<IResult<Pharmacy?>> UpdatePharmacyAsync(Pharmacy updatedPharmacy)
     {
         var existingPharmacy = await pharmacyRepository.UpdatePharmacyAsync(updatedPharmacy);
 
-        return ServiceHelper.BuildSuccessServiceResult(existingPharmacy);
+        return new Result<Pharmacy?>(existingPharmacy);
     }
 
-
     /// <inheritdoc/>
-    public async Task<IServiceResult<Pharmacy?>> GetPharmacyByIdAsync(int id)
+    public async Task<IResult<Pharmacy?>> GetPharmacyByIdAsync(int id)
     {
-        var cachedPharmacy = await cache.GetOrCreateAsync($"Pharmacy_{id}", x =>
-        {
-            x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
-            return pharmacyRepository.GetByIdAsync(id);
-        });
+        var cachedPharmacy = await cache.GetOrCreateAsync(
+            $"Pharmacy_{id}",
+            x =>
+            {
+                x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
+                return pharmacyRepository.GetByIdAsync(id);
+            }
+        );
 
-        return cachedPharmacy is not null 
-            ? ServiceHelper.BuildSuccessServiceResult(cachedPharmacy) 
-            : ServiceHelper.BuildNoContentResult<Pharmacy>($"No pharmacy found with id {id}");
+        return cachedPharmacy is not null
+            ? new Result<Pharmacy?>(cachedPharmacy)
+            : new Result<Pharmacy?>($"No pharmacy found with id {id}");
     }
 
-
     /// <inheritdoc/>
-    public async Task<IServiceResult<Pharmacy?>> InsertPharmacyAsync(Pharmacy newPharmacy)
+    public async Task<IResult<Pharmacy?>> InsertPharmacyAsync(Pharmacy newPharmacy)
     {
         var resultPharmacy = await pharmacyRepository.InsertPharmacyAsync(newPharmacy);
 
-        return ServiceHelper.BuildSuccessServiceResult(resultPharmacy);
+        return new Result<Pharmacy?>(resultPharmacy);
     }
 
-
     /// <inheritdoc/>
-    public async Task<IServiceResult<IEnumerable<Pharmacy>?>> GetPharmaciesByPharmacistIdAsync(int pharmacistId)
+    public async Task<IResult<IEnumerable<Pharmacy>?>> GetPharmaciesByPharmacistIdAsync(
+        int pharmacistId
+    )
     {
         var cacheKey = $"PharmacistPharmacyList_{pharmacistId}";
 
-        var pharmacyList = await cache.GetOrCreateAsync(cacheKey, x =>
-        {
-            x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
-            return pharmacyRepository.GetPharmaciesByPharmacistIdAsync(pharmacistId);
-        });
+        var pharmacyList = await cache.GetOrCreateAsync(
+            cacheKey,
+            x =>
+            {
+                x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
+                return pharmacyRepository.GetPharmaciesByPharmacistIdAsync(pharmacistId);
+            }
+        );
 
-        return ServiceHelper.BuildSuccessServiceResult(pharmacyList);
+        return new Result<IEnumerable<Pharmacy>?>(pharmacyList);
     }
-
-
-    #region Private Methods
-
-
-
-    private static void UpdateExistingPharmacy(Pharmacy existingPharmacy, Pharmacy updatedPharmacy)
-    {
-        existingPharmacy.ModifiedDate        = DateTime.Now;
-        existingPharmacy.Name                = updatedPharmacy.Name    ?? existingPharmacy.Name;
-        existingPharmacy.Address             = updatedPharmacy.Address ?? existingPharmacy.Address;
-        existingPharmacy.City                = updatedPharmacy.City    ?? existingPharmacy.City;
-        existingPharmacy.State               = updatedPharmacy.State   ?? existingPharmacy.State;
-        existingPharmacy.Zip                 = updatedPharmacy.Zip     ?? existingPharmacy.Zip;
-        existingPharmacy.PrescriptionsFilled = updatedPharmacy.PrescriptionsFilled 
-                                               ?? existingPharmacy.PrescriptionsFilled;
-    }
-
-
-    #endregion
 }

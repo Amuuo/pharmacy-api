@@ -9,7 +9,7 @@ public sealed class Delivery
     public int WarehouseId { get; init; }
 
     public int PharmacyId { get; init; }
-     
+
     public string DrugName { get; init; }
 
     public int UnitCount { get; init; }
@@ -28,6 +28,7 @@ public sealed class Delivery
 
     [JsonIgnore]
     public Pharmacy? Pharmacy { get; init; }
+
     [JsonIgnore]
-    public Warehouse? Warehouse { get; init; } 
+    public Warehouse? Warehouse { get; init; }
 }

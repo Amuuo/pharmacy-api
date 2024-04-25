@@ -1,4 +1,3 @@
 ﻿namespace MyPharmacy.Data.Repository.Interfaces;
-public interface IDeliveryRepository
-{
-}
+
+public interface IDeliveryRepository { }

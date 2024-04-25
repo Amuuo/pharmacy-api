@@ -13,40 +13,40 @@ public class DeliveryRepository(IDbConnection dbConnection) : IDeliveryRepositor
 
     public async Task<IPagedResult<Delivery>> GetPagedDeliveryListAsync(PagingInfo pagingInfo)
     {
-        var parameters = new DynamicParameters(new
-        {
-            pagingInfo.Page, 
-            pagingInfo.Take,                        
-        });
+        var parameters = new DynamicParameters(
+            new { Page = pagingInfo.PageNumber, Take = pagingInfo.PageSize, }
+        );
 
         parameters.Add("Count", dbType: DbType.Int32, direction: ParameterDirection.Output);
         parameters.Add("Pages", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
         var deliveries = await _dbConnection.QueryAsync<Delivery>(
-            sql: "spGetPagedDeliveryList", 
+            sql: "spGetPagedDeliveryList",
             parameters,
-            commandType: CommandType.StoredProcedure);
+            commandType: CommandType.StoredProcedure
+        );
 
         return new PagedResult<Delivery>
         {
-            Data       = deliveries,
+            Data = deliveries,
             PagingInfo = pagingInfo,
-            Total      = parameters.Get<int>("Count"),
-            Pages      = parameters.Get<int>("Pages")
+            Count = parameters.Get<int>("Count"),
+            Pages = parameters.Get<int>("Pages")
         };
     }
 
     public async Task<Delivery?> AddDeliveryAsync(Delivery delivery)
     {
         var insertedDelivery = await _dbConnection.QueryFirstOrDefaultAsync<Delivery>(
-            sql: "spAddDelivery", 
-            new 
+            sql: "spAddDelivery",
+            new
             {
                 delivery.PharmacyId,
                 delivery.DeliveryDate,
                 delivery.ModifiedBy
-            }, 
-            commandType: CommandType.StoredProcedure);
+            },
+            commandType: CommandType.StoredProcedure
+        );
 
         return insertedDelivery;
     }
@@ -54,15 +54,16 @@ public class DeliveryRepository(IDbConnection dbConnection) : IDeliveryRepositor
     public async Task<Delivery?> UpdateDeliveryAsync(Delivery delivery)
     {
         var updatedDelivery = await _dbConnection.QueryFirstOrDefaultAsync<Delivery>(
-            sql: "spUpdateDelivery", 
-            new 
+            sql: "spUpdateDelivery",
+            new
             {
                 delivery.Id,
                 delivery.PharmacyId,
                 delivery.DeliveryDate,
                 delivery.ModifiedBy
-            }, 
-            commandType: CommandType.StoredProcedure);
+            },
+            commandType: CommandType.StoredProcedure
+        );
 
         return updatedDelivery;
     }
@@ -70,12 +71,10 @@ public class DeliveryRepository(IDbConnection dbConnection) : IDeliveryRepositor
     public async Task<Delivery?> GetDeliveryByIdAsync(int id)
     {
         var delivery = await _dbConnection.QueryFirstOrDefaultAsync<Delivery>(
-            sql: "spGetDeliveryById", 
-            new
-            {
-                id
-            }, 
-            commandType: CommandType.StoredProcedure);
+            sql: "spGetDeliveryById",
+            new { id },
+            commandType: CommandType.StoredProcedure
+        );
 
         return delivery;
     }
@@ -83,12 +82,10 @@ public class DeliveryRepository(IDbConnection dbConnection) : IDeliveryRepositor
     public async Task<IEnumerable<Delivery>> GetDeliveryListByPharmacyIdAsync(int pharmacyId)
     {
         var deliveries = await _dbConnection.QueryAsync<Delivery>(
-            sql: "spGetDeliveryListByPharmacyId", 
-            new
-            {
-                PharmacyId = pharmacyId
-            }, 
-            commandType: CommandType.StoredProcedure);
+            sql: "spGetDeliveryListByPharmacyId",
+            new { PharmacyId = pharmacyId },
+            commandType: CommandType.StoredProcedure
+        );
 
         return deliveries;
     }

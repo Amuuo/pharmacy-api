@@ -1,4 +1,3 @@
-﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -15,7 +14,8 @@ namespace MyPharmacy.Data.Migrations
                 name: "Pharmacist",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table
+                        .Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -26,13 +26,15 @@ namespace MyPharmacy.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pharmacist", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Pharmacy",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table
+                        .Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -46,7 +48,8 @@ namespace MyPharmacy.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pharmacy", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "VwDeliveryDetail",
@@ -61,9 +64,8 @@ namespace MyPharmacy.Data.Migrations
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     DeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
-                constraints: table =>
-                {
-                });
+                constraints: table => { }
+            );
 
             migrationBuilder.CreateTable(
                 name: "VwPharmacistSalesSummary",
@@ -77,28 +79,33 @@ namespace MyPharmacy.Data.Migrations
                     TotalPrimaryUnits = table.Column<int>(type: "int", nullable: true),
                     TotalNonPrimaryUnits = table.Column<int>(type: "int", nullable: true)
                 },
-                constraints: table =>
-                {
-                });
+                constraints: table => { }
+            );
 
             migrationBuilder.CreateTable(
                 name: "VwWarehouseProfit",
                 columns: table => new
                 {
                     Warehouse = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TotalDeliveryRevenue = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    TotalDeliveryRevenue = table.Column<decimal>(
+                        type: "decimal(18,2)",
+                        nullable: true
+                    ),
                     TotalUnitCount = table.Column<int>(type: "int", nullable: true),
-                    AverageProfitPerUnit = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
+                    AverageProfitPerUnit = table.Column<decimal>(
+                        type: "decimal(18,2)",
+                        nullable: true
+                    )
                 },
-                constraints: table =>
-                {
-                });
+                constraints: table => { }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Warehouse",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table
+                        .Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -109,7 +116,8 @@ namespace MyPharmacy.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Warehouse", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "PharmacyPharmacist",
@@ -121,26 +129,33 @@ namespace MyPharmacy.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PharmacyPharmacist", x => new { x.PharmacistId, x.PharmacyId });
+                    table.PrimaryKey(
+                        "PK_PharmacyPharmacist",
+                        x => new { x.PharmacistId, x.PharmacyId }
+                    );
                     table.ForeignKey(
                         name: "FK_PharmacyPharmacist_Pharmacist_PharmacistId",
                         column: x => x.PharmacistId,
                         principalTable: "Pharmacist",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade
+                    );
                     table.ForeignKey(
                         name: "FK_PharmacyPharmacist_Pharmacy_PharmacyId",
                         column: x => x.PharmacyId,
                         principalTable: "Pharmacy",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Delivery",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table
+                        .Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     WarehouseId = table.Column<int>(type: "int", nullable: false),
                     PharmacyId = table.Column<int>(type: "int", nullable: false),
@@ -158,57 +173,55 @@ namespace MyPharmacy.Data.Migrations
                         column: x => x.PharmacyId,
                         principalTable: "Pharmacy",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade
+                    );
                     table.ForeignKey(
                         name: "FK_Delivery_Warehouse_WarehouseId",
                         column: x => x.WarehouseId,
                         principalTable: "Warehouse",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Delivery_PharmacyId",
                 table: "Delivery",
-                column: "PharmacyId");
+                column: "PharmacyId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Delivery_WarehouseId",
                 table: "Delivery",
-                column: "WarehouseId");
+                column: "WarehouseId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_PharmacyPharmacist_PharmacyId",
                 table: "PharmacyPharmacist",
-                column: "PharmacyId");
+                column: "PharmacyId"
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Delivery");
+            migrationBuilder.DropTable(name: "Delivery");
 
-            migrationBuilder.DropTable(
-                name: "PharmacyPharmacist");
+            migrationBuilder.DropTable(name: "PharmacyPharmacist");
 
-            migrationBuilder.DropTable(
-                name: "VwDeliveryDetail");
+            migrationBuilder.DropTable(name: "VwDeliveryDetail");
 
-            migrationBuilder.DropTable(
-                name: "VwPharmacistSalesSummary");
+            migrationBuilder.DropTable(name: "VwPharmacistSalesSummary");
 
-            migrationBuilder.DropTable(
-                name: "VwWarehouseProfit");
+            migrationBuilder.DropTable(name: "VwWarehouseProfit");
 
-            migrationBuilder.DropTable(
-                name: "Warehouse");
+            migrationBuilder.DropTable(name: "Warehouse");
 
-            migrationBuilder.DropTable(
-                name: "Pharmacist");
+            migrationBuilder.DropTable(name: "Pharmacist");
 
-            migrationBuilder.DropTable(
-                name: "Pharmacy");
+            migrationBuilder.DropTable(name: "Pharmacy");
         }
     }
 }

@@ -12,81 +12,93 @@ using MyPharmacy.Services.Interfaces;
 
 namespace MyPharmacy.Services;
 
-
 ///<inheritdoc/>
 public class PharmacistService(
-    ILogger<IPharmacistService> logger, 
+    ILogger<IPharmacistService> logger,
     IPharmacyDbContext dbContext,
-    IPharmacistRepository pharmacistRepository, 
-    IMemoryCache cache) : IPharmacistService
+    IPharmacistRepository pharmacistRepository,
+    IMemoryCache cache
+) : IPharmacistService
 {
     ///<inheritdoc/>
-    public async Task<IServiceResult<IPagedResult<Pharmacist>?>> GetPagedPharmacistListAsync(PagingInfo pagingInfo)
+    public async Task<IResult<IPagedResult<Pharmacist>?>> GetPagedPharmacistListAsync(
+        PagingInfo pagingInfo
+    )
     {
-        var cacheKey = $"PagedPharmacistList_{pagingInfo.Page}_{pagingInfo.Take}";
+        var cacheKey = $"PagedPharmacistList_{pagingInfo.PageNumber}_{pagingInfo.PageSize}";
 
-        var cachedList = await cache.GetOrCreateAsync(cacheKey, x =>
-        {
-            x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
-            return pharmacistRepository.GetPagedPharmacistListAsync(pagingInfo);
-        });
+        var cachedList = await cache.GetOrCreateAsync(
+            cacheKey,
+            x =>
+            {
+                x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
+                return pharmacistRepository.GetPagedPharmacistListAsync(pagingInfo);
+            }
+        );
 
-        return ServiceHelper.BuildSuccessServiceResult(cachedList);
+        return new Result<IPagedResult<Pharmacist>?>(cachedList);
     }
 
     ///<inheritdoc/>
-    public async Task<IServiceResult<Pharmacist?>> GetPharmacistByIdAsync(int id)
+    public async Task<IResult<Pharmacist?>> GetPharmacistByIdAsync(int id)
     {
         var cacheKey = $"Pharmacist_{id}";
 
-        var cachedPharmacist = await cache.GetOrCreateAsync(cacheKey, x =>
-        {
-            x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
-            return pharmacistRepository.GetPharmacistByIdAsync(id);
-        });
+        var cachedPharmacist = await cache.GetOrCreateAsync(
+            cacheKey,
+            x =>
+            {
+                x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
+                return pharmacistRepository.GetPharmacistByIdAsync(id);
+            }
+        );
 
         return cachedPharmacist is not null
-            ? ServiceHelper.BuildSuccessServiceResult(cachedPharmacist)
-            : ServiceHelper.BuildNoContentResult<Pharmacist>($"No pharmacist found with ID {id}");
+            ? new Result<Pharmacist?>(cachedPharmacist)
+            : new Result<Pharmacist?>($"No pharmacist found with ID {id}");
     }
 
-
     ///<inheritdoc/>
-    public async Task<IServiceResult<IEnumerable<Pharmacist>?>> GetPharmacistListByPharmacyIdAsync(int pharmacyId)
+    public async Task<IResult<IEnumerable<Pharmacist>?>> GetPharmacistListByPharmacyIdAsync(
+        int pharmacyId
+    )
     {
         var cacheKey = $"PharmacistListByPharmacy_{pharmacyId}";
 
-        var cachedPharmacistList = await cache.GetOrCreateAsync(cacheKey, x =>
-        {
-            x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
-            return pharmacistRepository.GetPharmacistListByPharmacyIdAsync(pharmacyId);
-        });
-        
-        return ServiceHelper.BuildSuccessServiceResult(cachedPharmacistList);
+        var cachedPharmacistList = await cache.GetOrCreateAsync(
+            cacheKey,
+            x =>
+            {
+                x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
+                return pharmacistRepository.GetPharmacistListByPharmacyIdAsync(pharmacyId);
+            }
+        );
+
+        return new Result<IEnumerable<Pharmacist>?>(cachedPharmacistList);
     }
 
-
     ///<inheritdoc/>
-    public async Task<IServiceResult<Pharmacist?>> UpdatePharmacistAsync(Pharmacist pharmacistToUpdate)
+    public async Task<IResult<Pharmacist?>> UpdatePharmacistAsync(Pharmacist pharmacistToUpdate)
     {
-        var existingPharmacist = await pharmacistRepository.GetPharmacistByIdAsync(pharmacistToUpdate.Id);
+        var existingPharmacist = await pharmacistRepository.GetPharmacistByIdAsync(
+            pharmacistToUpdate.Id
+        );
 
         if (existingPharmacist is null)
         {
-            return ServiceHelper.BuildNoContentResult<Pharmacist>($"No pharmacist found with ID {pharmacistToUpdate.Id}");
+            return new Result<Pharmacist?>($"No pharmacist found with ID {pharmacistToUpdate.Id}");
         }
 
         var pharmacist = await pharmacistRepository.UpdatePharmacistAsync(pharmacistToUpdate);
 
-        return ServiceHelper.BuildSuccessServiceResult(pharmacist);
+        return new Result<Pharmacist?>(pharmacist);
     }
 
-
     ///<inheritdoc/>
-    public async Task<IServiceResult<Pharmacist?>> AddPharmacistAsync(Pharmacist pharmacist)
+    public async Task<IResult<Pharmacist?>> AddPharmacistAsync(Pharmacist pharmacist)
     {
         var newPharmacist = await pharmacistRepository.AddPharmacistAsync(pharmacist);
 
-        return ServiceHelper.BuildSuccessServiceResult(newPharmacist);
+        return new Result<Pharmacist?>(newPharmacist);
     }
 }

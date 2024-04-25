@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using MyPharmacy.Core.Helpers;
+using MyPharmacy.Core.Utilities;
 using MyPharmacy.Core.Utilities.Interfaces;
 using MyPharmacy.Data;
 using MyPharmacy.Data.Entities;
@@ -10,38 +11,35 @@ namespace MyPharmacy.Services;
 /// <summary>
 /// Represents a service for managing warehouses.
 /// </summary>
-public class WarehouseService(
-    ILogger<WarehouseService> logger, 
-    IPharmacyDbContext dbContext) : IWarehouseService
+public class WarehouseService(ILogger<WarehouseService> logger, IPharmacyDbContext dbContext)
+    : IWarehouseService
 {
-
     ///<inheritdoc/>
-    public async Task<IServiceResult<IAsyncEnumerable<Warehouse>>> GetWarehouseListAsync()
+    public async Task<IResult<IAsyncEnumerable<Warehouse>>> GetWarehouseListAsync()
     {
         var warehouseList = dbContext.WarehouseList.AsAsyncEnumerable();
 
         return ServiceHelper.BuildSuccessServiceResult(warehouseList);
     }
 
-
     ///<inheritdoc/>
-    public async Task<IServiceResult<Warehouse>> InsertWarehouseAsync(Warehouse newWarehouse)
+    public async Task<IResult<Warehouse>> InsertWarehouseAsync(Warehouse newWarehouse)
     {
         if (await dbContext.WarehouseList.FindAsync(newWarehouse.Id) is not null)
         {
-            return ServiceHelper.BuildErrorServiceResult<Warehouse>(new Exception(),
-                @$"Warehouse with id {newWarehouse.Id} already exists. Use update endpoint to modify an existing record");
+            return new Result<Warehouse>(
+                @$"Warehouse with id {newWarehouse.Id} already exists. Use update endpoint to modify an existing record"
+            );
         }
 
         await dbContext.WarehouseList.AddAsync(newWarehouse);
         await dbContext.SaveChangesAsync();
 
-        return ServiceHelper.BuildSuccessServiceResult(newWarehouse);
+        return new Result<Warehouse>(newWarehouse);
     }
 
-
     ///<inheritdoc/>
-    public async Task<IServiceResult<Warehouse>> UpdateWarehouseAsync(Warehouse updatedWarehouse)
+    public async Task<IResult<Warehouse>> UpdateWarehouseAsync(Warehouse updatedWarehouse)
     {
         var searchResult = await GetWarehouseByIdAsync(updatedWarehouse.Id);
 
@@ -50,32 +48,33 @@ public class WarehouseService(
             return searchResult;
         }
 
-        var existingWarehouse = searchResult.Result;
+        var existingWarehouse = searchResult.Response;
         UpdateExistingWarehouse(existingWarehouse, updatedWarehouse);
 
         await dbContext.SaveChangesAsync();
 
-        return ServiceHelper.BuildSuccessServiceResult(existingWarehouse);
+        return new Result<Warehouse>(existingWarehouse);
     }
 
-
     ///<inheritdoc/>
-    public async Task<IServiceResult<Warehouse>> GetWarehouseByIdAsync(int id)
+    public async Task<IResult<Warehouse>> GetWarehouseByIdAsync(int id)
     {
         var warehouse = await dbContext.WarehouseList.FindAsync(id);
 
-        return warehouse is null 
-            ? ServiceHelper.BuildNoContentResult<Warehouse>($"No warehouse found with id {id}") 
-            : ServiceHelper.BuildSuccessServiceResult(warehouse);
+        return warehouse is null
+            ? new Result<Warehouse>($"No warehouse found with id {id}")
+            : new Result<Warehouse>(warehouse);
     }
 
-    private static void UpdateExistingWarehouse(Warehouse existingWarehouse, Warehouse updatedWarehouse)
+    private static void UpdateExistingWarehouse(
+        Warehouse existingWarehouse,
+        Warehouse updatedWarehouse
+    )
     {
-        existingWarehouse.Name    = updatedWarehouse.Name    ?? existingWarehouse.Name;
+        existingWarehouse.Name = updatedWarehouse.Name ?? existingWarehouse.Name;
         existingWarehouse.Address = updatedWarehouse.Address ?? existingWarehouse.Address;
-        existingWarehouse.City    = updatedWarehouse.City    ?? existingWarehouse.City;
-        existingWarehouse.State   = updatedWarehouse.State   ?? existingWarehouse.State;
-        existingWarehouse.Zip     = updatedWarehouse.Zip     ?? existingWarehouse.Zip;
+        existingWarehouse.City = updatedWarehouse.City ?? existingWarehouse.City;
+        existingWarehouse.State = updatedWarehouse.State ?? existingWarehouse.State;
+        existingWarehouse.Zip = updatedWarehouse.Zip ?? existingWarehouse.Zip;
     }
 }
-

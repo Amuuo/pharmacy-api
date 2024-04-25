@@ -2,7 +2,7 @@
 
 namespace MyPharmacy.Data.Entities;
 
-public class Pharmacy
+public sealed class Pharmacy
 {
     public int Id { get; set; }
 
@@ -25,7 +25,7 @@ public class Pharmacy
     public string? ModifiedBy { get; set; }
 
     [JsonIgnore]
-    public virtual ICollection<PharmacyPharmacist>? PharmacyPharmacists { get; set; }
+    public ICollection<PharmacyPharmacist>? PharmacyPharmacists { get; set; }
 
     //[JsonIgnore]
     //public virtual ICollection<Delivery>? Deliveries { get; set; }

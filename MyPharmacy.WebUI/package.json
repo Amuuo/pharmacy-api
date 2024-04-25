@@ -24,8 +24,8 @@
     "effector": "^22.8.6",
     "effector-react": "^22.5.3",
     "express": "^4.18.2",
-    "material-react-table": "^2.7.0",
-    "moment": "^2.29.4",
+    "material-react-table": "^2.13.0",
+    "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-date-picker": "^10.5.0",
     "react-datepicker": "^4.17.0",
@@ -47,6 +47,7 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "prettier": "^3.2.5",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
   }
