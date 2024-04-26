@@ -53,14 +53,16 @@ public class DeliveryService(
 
     public Task<IResult<IEnumerable<Delivery>>> GetDeliveryListByWarehouseId(int warehouseId)
     {
-        var deliveryListByWarehouse = dbContext
-            .DeliveryList.Where(d => d.Warehouse.Id == warehouseId);
-        
+        var deliveryListByWarehouse = dbContext.DeliveryList.Where(d =>
+            d.Warehouse.Id == warehouseId
+        );
+
         return Task.FromResult<IResult<IEnumerable<Delivery>>>(
             new Result<IEnumerable<Delivery>>(deliveryListByWarehouse)
         );
     }
-        public async Task<IResult<Delivery>> InsertDeliveryAsync(Delivery delivery)
+
+    public async Task<IResult<Delivery>> InsertDeliveryAsync(Delivery delivery)
     /// <inheritdoc/>
     {
         var warehouseExists = await dbContext.WarehouseList.AnyAsync(w =>

@@ -20,7 +20,9 @@ builder.Services.AddCors();
 builder.Services.AddSwaggerDocument();
 builder.Services.AddCustomizedSwaggerGen();
 builder.Services.AddScoped<IDbConnection>(sp => new SqlConnection(connectionString));
-builder.Services.AddConfiguredDbContextPool<IPharmacyDbContext, PharmacyDbContext>(connectionString);
+builder.Services.AddConfiguredDbContextPool<IPharmacyDbContext, PharmacyDbContext>(
+    connectionString
+);
 builder.Services.AddPharmacyServices();
 builder.Services.AddHttpContextAccessor();
 
@@ -28,7 +30,6 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    
     app.UseOpenApi();
     app.UseSwaggerUI(c =>
     {
