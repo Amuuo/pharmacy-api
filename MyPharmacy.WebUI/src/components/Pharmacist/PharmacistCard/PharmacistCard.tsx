@@ -39,9 +39,24 @@ export default function PharmacistCard() {
             <CardHeader
               title={`${currentPharmacist.firstName} ${currentPharmacist.lastName}`}
               subheader={
-                <div className={styles.card_buttons} style={{ marginTop: "20px" }}>
-                  <button className={styles.add_button} type="button" title="Assign Pharmacist">Assign Pharamcist</button>
-                  <button className={styles.edit_button} type="button" title="Edit Pharmacist" >Edit Pharamcist </button>
+                <div
+                  className={styles.card_buttons}
+                  style={{ marginTop: "20px" }}
+                >
+                  <button
+                    className={styles.add_button}
+                    type="button"
+                    title="Assign Pharmacist"
+                  >
+                    Assign Pharamcist
+                  </button>
+                  <button
+                    className={styles.edit_button}
+                    type="button"
+                    title="Edit Pharmacist"
+                  >
+                    Edit Pharamcist{" "}
+                  </button>
                 </div>
               }
               action={
