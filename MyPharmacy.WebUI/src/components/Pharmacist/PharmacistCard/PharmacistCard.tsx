@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import styles from "./PharmacistCard.module.scss";
-import { Avatar, Card, CardContent, CardHeader, Typography } from "@mui/material";
+import {
+  Avatar,
+  Card,
+  CardContent,
+  CardHeader,
+  Typography,
+} from "@mui/material";
 import { pharmacistStore } from "../../../stores/pharmacistStore";
 import { useStore } from "effector-react";
 import moment from "moment";
@@ -30,7 +36,8 @@ export default function PharmacistCard() {
   return (
     <>
       {!currentPharmacist?.id ? null : (
-        <div className={styles.pharmacist_selection}><Card className={isOutgoing ? outgoingStyles : incomingStyles}>
+        <div className={styles.pharmacist_selection}>
+          <Card className={isOutgoing ? outgoingStyles : incomingStyles}>
             <CardHeader
               title={`${currentPharmacist.firstName} ${currentPharmacist.lastName}`}
               subheader={

@@ -1,8 +1,7 @@
-@import '../../styles/animations.scss';
-
+@import "../../styles/animations.scss";
 
 .PharmacyManager {
-  transition: 300ms;    
+  transition: 300ms;
   grid-area: main;
   display: grid;
   will-change: transform;
@@ -11,29 +10,29 @@
   max-height: 100% !important;
 
   @media screen and (min-width: 300px) and (max-width: 750px) {
-    grid-template-areas: 
-      'pharmacyCard' 'pharmacy'                       
-      'order' 'pharmacist';
-    grid-template-columns: minmax(300px, 600px);  
+    grid-template-areas:
+      "pharmacyCard" "pharmacy"
+      "order" "pharmacist";
+    grid-template-columns: minmax(300px, 600px);
     grid-template-rows: 225px 250px minmax(0, 225px) minmax(0, 250px);
     padding: 1rem;
     grid-gap: 0.5rem;
   }
 
   @media screen and (min-width: 750px) {
-    grid-template-areas: 
-      'pharmacy pharmacyCard'                       
-      'order pharmacist'
-      'pharmacistCard pharmacistCard';
-    grid-template-columns: minmax(400px, 600px) minmax(325px, 350px);  
+    grid-template-areas:
+      "pharmacy pharmacyCard"
+      "order pharmacist"
+      "pharmacistCard pharmacistCard";
+    grid-template-columns: minmax(400px, 600px) minmax(325px, 350px);
     grid-template-rows: 400px 200px 300px;
     padding: 2rem;
     grid-gap: 2rem;
   }
 }
 
-
-.pharmacy-section, .card-section {
+.pharmacy-section,
+.card-section {
   display: flex;
   flex-direction: column;
   grid-gap: 2rem; // Default for .pharmacy-section
@@ -82,6 +81,6 @@
 }
 
 h1 {
-  font-family: 'Proza Libre', sans-serif;
+  font-family: "Proza Libre", sans-serif;
   font-weight: 800;
 }

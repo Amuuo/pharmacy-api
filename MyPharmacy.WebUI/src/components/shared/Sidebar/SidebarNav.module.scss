@@ -1,28 +1,28 @@
 .link {
-    background: white;
+  background: white;
 }
 
 .sidebar {
-    background-color: transparent;    
-    grid-area: sidebar;
-    position: relative;
+  background-color: transparent;
+  grid-area: sidebar;
+  position: relative;
 
-    .ps-menuitem-root {
-        background-color: blue !important;
-    }
+  .ps-menuitem-root {
+    background-color: blue !important;
+  }
 
-    .ps-submenu-root {
-        background-color: green;
-    }
+  .ps-submenu-root {
+    background-color: green;
+  }
 }
 
 .menu {
-    color: rgb(224, 237, 245) !important;
-    font-family: monospace;
-    background-color: rgb(64, 124, 202);
-    height: 100%;
+  color: rgb(224, 237, 245) !important;
+  font-family: monospace;
+  background-color: rgb(64, 124, 202);
+  height: 100%;
 }
 
 .ps-menu-button:hover {
-    background-color: rgb(23, 72, 135) !important;
+  background-color: rgb(23, 72, 135) !important;
 }
