@@ -17,9 +17,7 @@ public class WarehouseService(ILogger<WarehouseService> logger, IPharmacyDbConte
     ///<inheritdoc/>
     public async Task<IResult<IAsyncEnumerable<Warehouse>>> GetWarehouseListAsync()
     {
-        var warehouseList = dbContext.WarehouseList.AsAsyncEnumerable();
-
-        return ServiceHelper.BuildSuccessServiceResult(warehouseList);
+        var warehouseList = dbContext.WarehouseList.AsAsyncEnumerable(); return ServiceHelper.BuildSuccessServiceResult(warehouseList);
     }
 
     ///<inheritdoc/>
@@ -32,8 +30,7 @@ public class WarehouseService(ILogger<WarehouseService> logger, IPharmacyDbConte
             );
         }
 
-        await dbContext.WarehouseList.AddAsync(newWarehouse);
-        await dbContext.SaveChangesAsync();
+        await dbContext.WarehouseList.AddAsync(newWarehouse);await dbContext.SaveChangesAsync();
 
         return new Result<Warehouse>(newWarehouse);
     }
