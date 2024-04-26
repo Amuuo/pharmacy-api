@@ -74,7 +74,9 @@ public class DeliveryRepository(IDbConnection dbConnection) : IDeliveryRepositor
             sql: "spGetDeliveryById",
             new { id },
             commandType: CommandType.StoredProcedure
-        );return delivery;
+        );
+        
+        return delivery;
     }
 
     public async Task<IEnumerable<Delivery>> GetDeliveryListByPharmacyIdAsync(int pharmacyId)
