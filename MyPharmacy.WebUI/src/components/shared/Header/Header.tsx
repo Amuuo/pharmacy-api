@@ -41,16 +41,6 @@ export default function Header() {
             <NavLink to="/reports">Reporting</NavLink>
             <NavLink to="/warehouse">Warehouse</NavLink>
           </div>
-          <select
-            style={{ height: "40px" }}
-            onChange={handlePharmacySelectionChange}
-            value={selectedPharmacy?.name}
-            id={selectedPharmacy?.id}
-          >
-            {pharmacyList.map((p) => (
-              <option key={p.id}>{p.name}</option>
-            ))}
-          </select>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
           <Avatar></Avatar>

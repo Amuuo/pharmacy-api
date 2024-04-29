@@ -8,7 +8,7 @@
     <!--<UserSecretsId>aspnet-PharmacyApi-b12dadd8-f0d9-44b1-89d2-a55d0cf724be</UserSecretsId>-->
   </PropertyGroup>
 
-  <ItemGroup>
+    <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
     <PackageReference Include="Azure.Storage.Files.Shares" Version="12.17.1" />
     <PackageReference Include="Dapper" Version="2.1.28" />

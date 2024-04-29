@@ -8,6 +8,9 @@ using MyPharmacy.Services.Interfaces;
 namespace PharmacyApi.Controllers;
 
 
+/// <summary>
+/// Represents a controller for managing deliveries.
+/// </summary>
 [ApiController]
 [Route("delivery")]
 public class DeliveryController(

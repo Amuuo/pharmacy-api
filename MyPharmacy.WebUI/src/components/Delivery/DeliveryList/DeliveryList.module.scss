@@ -3,6 +3,9 @@
 .delivery_list {
   grid-area: order;
   z-index: 1 !important;
+  &:hover {
+    transform: scale(0.99);
+  }
 }
 
 @media (max-width: 767.98px) {

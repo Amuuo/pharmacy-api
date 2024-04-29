@@ -75,10 +75,8 @@ public class PharmacyService(
         int pharmacistId
     )
     {
-        var cacheKey = $"PharmacistPharmacyList_{pharmacistId}";
-
         var pharmacyList = await cache.GetOrCreateAsync(
-            cacheKey,
+            $"PharmacistPharmacyList_{pharmacistId}",
             x =>
             {
                 x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);

@@ -39,6 +39,10 @@ export default function DeliveryList({
     }
   }, [selectedPharmacy?.id]);
 
+  useEffect(() => {
+    getDeliveryList(paginationModel);
+  }, [paginationModel])
+
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat("en-US", {
       style: "currency",

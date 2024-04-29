@@ -44,7 +44,7 @@ fetchPharmacistListByPharmacyIdFx.use(async (pharmacyId: number) => {
 fetchPharmacistListFx.use(async (paginationModel: GridPaginationModel) => {
   const url =
     `${import.meta.env.VITE_API_URL}/pharmacist` +
-    `?page=${paginationModel.page}&take=${paginationModel.pageSize}`;
+    `?pageNumber=${paginationModel.page}&pageSize=${paginationModel.pageSize}`;
 
   const response = await fetch(url, {
     method: "GET",
@@ -74,7 +74,7 @@ pharmacistStore
     ...state,
     loadingPharmacistList: false,
     pharmacistList: result.data,
-    totalCount: result.totalCount,
+    totalCount: result.count,
   }))
 
   .on(fetchPharmacistListFx.fail, (state) => ({
@@ -92,7 +92,7 @@ pharmacistStore
     ...state,
     loadingPharmacistList: false,
     pharmacistList: result,
-    totalCount: result.totalCount,
+    totalCount: result.count,
   }))
 
   .on(fetchPharmacistListByPharmacyIdFx.fail, (state) => ({

@@ -26,6 +26,8 @@ builder.Services.AddConfiguredDbContextPool<IPharmacyDbContext, PharmacyDbContex
 builder.Services.AddPharmacyServices();
 builder.Services.AddHttpContextAccessor();
 
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -43,5 +45,20 @@ app.UseHttpsRedirection();
 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseAuthorization();
 app.MapControllers();
+
+/*app.UseStaticFiles(); */// For serving static files including the React app
+
+//app.UseSpaStaticFiles(); // If you're using an SPA static file middleware
+
+//app.UseSpa(spa =>
+//{
+//    spa.Options.SourcePath = "Path to your React build folder";
+
+//    if (env.IsDevelopment())
+//    {
+//        spa.UseReactDevelopmentServer(npmScript: "start");
+//    }
+//});
+
 
 await app.RunAsync();

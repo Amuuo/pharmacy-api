@@ -15,6 +15,7 @@ public static class ServiceRegistrationExtensions
         services.AddScoped<IPharmacistService, PharmacistService>();
         services.AddScoped<IWarehouseService, WarehouseService>();
         services.AddScoped<IReportingService, ReportingService>();
+        
         // Register repository interfaces to their implementations
         services.AddScoped<IPharmacyRepository, PharmacyRepository>();        
         services.AddScoped<IDeliveryRepository, DeliveryRepository>();

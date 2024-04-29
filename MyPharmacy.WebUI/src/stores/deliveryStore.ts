@@ -27,7 +27,7 @@ getDeliveryListByPharmacyIdFx.use(async (pharmacyId: number) => {
 getDeliveryList.use(async (paginationModel: GridPaginationModel) => {
   const url =
     `${import.meta.env.VITE_API_URL}/delivery` +
-    `?page=${paginationModel.page}&take=${paginationModel.pageSize}`;
+    `?pageNumber=${paginationModel.page}&pageSize=${paginationModel.pageSize}`;
 
   const response = await fetch(url, {
     method: "GET",
@@ -47,7 +47,7 @@ deliveryStore
       ...state,
       deliveryList: result,
       loading: false,
-      totalCount: result.totalCount,
+      totalCount: result.count,
     };
   })
   .on(getDeliveryListByPharmacyIdFx.fail, (state, {}) => {
@@ -61,7 +61,7 @@ deliveryStore
       ...state,
       loading: false,
       deliveryList: result.data,
-      totalCount: result.totalCount,
+      totalCount: result.count,
     };
   })
   .on(getDeliveryList.fail, (state) => {

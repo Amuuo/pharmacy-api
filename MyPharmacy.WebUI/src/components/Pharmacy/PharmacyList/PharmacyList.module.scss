@@ -16,5 +16,8 @@
   transition: all 300ms ease;
   height: 100%;
   grid-area: pharmacy;
+  &:hover {
+    transform: scale(0.99);
+  }
   // z-index: 4;
 }
