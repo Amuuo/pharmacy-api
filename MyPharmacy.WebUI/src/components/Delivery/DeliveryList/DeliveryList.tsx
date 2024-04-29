@@ -41,7 +41,7 @@ export default function DeliveryList({
 
   useEffect(() => {
     getDeliveryList(paginationModel);
-  }, [paginationModel])
+  }, [paginationModel]);
 
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat("en-US", {
