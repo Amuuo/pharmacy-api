@@ -7,20 +7,22 @@ using MyPharmacy.Data.Repository.Interfaces;
 
 namespace MyPharmacy.Data.Repository;
 
+/// <summary>
+/// Represents a repository for managing deliveries.
+/// </summary>
 public class DeliveryRepository(IDbConnection dbConnection) : IDeliveryRepository
-{
-    private readonly IDbConnection _dbConnection = dbConnection;
-
+{    
+    /// <inheritdoc/>
     public async Task<IPagedResult<Delivery>> GetPagedDeliveryListAsync(PagingInfo pagingInfo)
     {
         var parameters = new DynamicParameters(
-            new { Page = pagingInfo.PageNumber, Take = pagingInfo.PageSize, }
+            new { Page = pagingInfo.PageNumber, Take = pagingInfo.PageSize }
         );
 
         parameters.Add("Count", dbType: DbType.Int32, direction: ParameterDirection.Output);
         parameters.Add("Pages", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-        var deliveries = await _dbConnection.QueryAsync<Delivery>(
+        var deliveries = await dbConnection.QueryAsync<Delivery>(
             sql: "spGetPagedDeliveryList",
             parameters,
             commandType: CommandType.StoredProcedure
@@ -35,9 +37,10 @@ public class DeliveryRepository(IDbConnection dbConnection) : IDeliveryRepositor
         };
     }
 
+    /// <inheritdoc/>
     public async Task<Delivery?> AddDeliveryAsync(Delivery delivery)
     {
-        var insertedDelivery = await _dbConnection.QueryFirstOrDefaultAsync<Delivery>(
+        var insertedDelivery = await dbConnection.QueryFirstOrDefaultAsync<Delivery>(
             sql: "spAddDelivery",
             new
             {
@@ -51,9 +54,10 @@ public class DeliveryRepository(IDbConnection dbConnection) : IDeliveryRepositor
         return insertedDelivery;
     }
 
+    /// <inheritdoc/>
     public async Task<Delivery?> UpdateDeliveryAsync(Delivery delivery)
     {
-        var updatedDelivery = await _dbConnection.QueryFirstOrDefaultAsync<Delivery>(
+        var updatedDelivery = await dbConnection.QueryFirstOrDefaultAsync<Delivery>(
             sql: "spUpdateDelivery",
             new
             {
@@ -68,20 +72,22 @@ public class DeliveryRepository(IDbConnection dbConnection) : IDeliveryRepositor
         return updatedDelivery;
     }
 
+    /// <inheritdoc/>
     public async Task<Delivery?> GetDeliveryByIdAsync(int id)
     {
-        var delivery = await _dbConnection.QueryFirstOrDefaultAsync<Delivery>(
+        var delivery = await dbConnection.QueryFirstOrDefaultAsync<Delivery>(
             sql: "spGetDeliveryById",
             new { id },
             commandType: CommandType.StoredProcedure
         );
-        
+
         return delivery;
     }
 
+    /// <inheritdoc/>
     public async Task<IEnumerable<Delivery>> GetDeliveryListByPharmacyIdAsync(int pharmacyId)
     {
-        var deliveries = await _dbConnection.QueryAsync<Delivery>(
+        var deliveries = await dbConnection.QueryAsync<Delivery>(
             sql: "spGetDeliveryListByPharmacyId",
             new { PharmacyId = pharmacyId },
             commandType: CommandType.StoredProcedure
@@ -89,18 +95,4 @@ public class DeliveryRepository(IDbConnection dbConnection) : IDeliveryRepositor
 
         return deliveries;
     }
-
-    //public async Task<int> GetDeliveryListCount()
-    //{
-    //    const string sql = @"
-    //                        SELECT
-    //                            COUNT(*)
-    //                        FROM
-    //                            Delivery
-    //                        ";
-
-    //    var deliveryListCount = await _dbConnection.QuerySingleAsync<int>(sql);
-
-    //    return deliveryListCount;
-    //}
 }

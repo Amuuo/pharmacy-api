@@ -1,0 +1,25 @@
+@import "../../../src/styles/animations.scss";
+
+.delivery_list {
+   grid-area: order;
+   z-index: 1 !important;
+   transition: all 700ms var(--custom-curve-2);
+   &:hover {
+      transform: scale(0.9);
+   }
+   @media (max-width: 767.98px) {
+      height: 225px;
+      transition: 300ms;
+   }
+   @media (min-width: 768px) {
+      height: fit-content !important;
+      max-height: 100% !important;
+      transition: 300ms;
+      overflow: hidden;
+   }
+
+   @starting-style {      
+      transform: translateY(-5%) scale(0.97);
+      opacity: 0.5;
+   }
+}

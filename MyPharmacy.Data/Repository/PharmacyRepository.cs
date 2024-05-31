@@ -12,11 +12,7 @@ namespace MyPharmacy.Data.Repository;
 /// </summary>
 public class PharmacyRepository(IDbConnection dbConnection) : IPharmacyRepository
 {
-    /// <summary>
-    /// Retrieves a paged list of pharmacies asynchronously.
-    /// </summary>
-    /// <param name="pagingInfo">The paging information.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the paged result of pharmacies.</returns>
+    /// <inheritdoc />
     public async Task<IPagedResult<Pharmacy>?> GetPharmacyListPagedAsync(PagingInfo pagingInfo)
     {
         var parameters = new DynamicParameters(
@@ -41,11 +37,7 @@ public class PharmacyRepository(IDbConnection dbConnection) : IPharmacyRepositor
         };
     }
 
-    /// <summary>
-    /// Retrieves a pharmacy by its ID asynchronously.
-    /// </summary>
-    /// <param name="id">The ID of the pharmacy to retrieve.</param>
-    /// <returns>The pharmacy with the specified ID, or null if not found.</returns>
+    /// <inheritdoc />
     public async Task<Pharmacy?> GetByIdAsync(int id)
     {
         var pharmacy = await dbConnection.QueryFirstOrDefaultAsync<Pharmacy>(
@@ -57,12 +49,8 @@ public class PharmacyRepository(IDbConnection dbConnection) : IPharmacyRepositor
         return pharmacy;
     }
 
-    /// <summary>
-    /// Inserts a new pharmacy record asynchronously.
-    /// </summary>
-    /// <param name="pharmacy">The pharmacy object to be inserted.</param>
-    /// <returns>The inserted pharmacy object.</returns>
-    public async Task<Pharmacy?> InsertPharmacyAsync(Pharmacy? pharmacy)
+    /// <inheritdoc />
+    public async Task<Pharmacy?> InsertPharmacyAsync(Pharmacy pharmacy)
     {
         var insertedPharmacy = await dbConnection.QueryFirstOrDefaultAsync<Pharmacy>(
             "spInsertPharmacy",
@@ -82,11 +70,7 @@ public class PharmacyRepository(IDbConnection dbConnection) : IPharmacyRepositor
         return insertedPharmacy;
     }
 
-    /// <summary>
-    /// Updates a pharmacy asynchronously.
-    /// </summary>
-    /// <param name="pharmacy">The pharmacy object to update.</param>
-    /// <returns>The updated pharmacy object.</returns>
+    /// <inheritdoc />
     public async Task<Pharmacy?> UpdatePharmacyAsync(Pharmacy pharmacy)
     {
         var updatedPharmacy = await dbConnection.QueryFirstOrDefaultAsync<Pharmacy>(
@@ -108,6 +92,7 @@ public class PharmacyRepository(IDbConnection dbConnection) : IPharmacyRepositor
         return updatedPharmacy;
     }
 
+    /// <inheritdoc />
     public async Task<IEnumerable<Pharmacy>?> GetPharmaciesByPharmacistIdAsync(int pharmacistId)
     {
         var pharmacyList = await dbConnection.QueryAsync<Pharmacy>(

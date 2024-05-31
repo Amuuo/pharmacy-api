@@ -2,6 +2,9 @@ using System.Reflection;
 
 namespace MyPharmacy.Api.Extensions;
 
+/// <summary>
+/// 
+/// </summary>
 public static class SwaggerServiceExtensions
 {
     /// <summary>

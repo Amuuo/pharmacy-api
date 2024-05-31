@@ -23,17 +23,6 @@ public class PharmacyDbContext : DbContext, IPharmacyDbContext
             .Entity<PharmacyPharmacist>()
             .HasKey(pp => new { pp.PharmacistId, pp.PharmacyId });
 
-        //modelBuilder.Entity<PharmacyPharmacist>()
-        //    .HasOne(pp => pp.Pharmacist)
-        //    .WithMany(p => p.PharmacyPharmacists)
-        //    .HasForeignKey(pp => pp.PharmacistId);
-
-        //modelBuilder.Entity<PharmacyPharmacist>()
-        //    .HasOne(pp => pp.Pharmacy)
-        //    .WithMany(p => p.PharmacyPharmacists)
-        //    .HasForeignKey(pp => pp.PharmacyId);
-
-
         modelBuilder.Entity<VwDeliveryDetail>(entity =>
         {
             entity.HasNoKey();

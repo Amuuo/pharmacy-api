@@ -13,11 +13,7 @@ namespace MyPharmacy.Data.Repository;
 /// </summary>
 public class PharmacistRepository(IDbConnection dbConnection) : IPharmacistRepository
 {
-    /// <summary>
-    /// Adds a new pharmacist to the database asynchronously.
-    /// </summary>
-    /// <param name="pharmacist">The pharmacist object to be added.</param>
-    /// <returns>The inserted pharmacist object.</returns>
+    /// <inheritdoc/>
     public async Task<Pharmacist?> AddPharmacistAsync(Pharmacist pharmacist)
     {
         var insertedPharmacist = await dbConnection.QueryFirstOrDefaultAsync<Pharmacist>(
@@ -37,10 +33,7 @@ public class PharmacistRepository(IDbConnection dbConnection) : IPharmacistRepos
         return insertedPharmacist;
     }
 
-    /// <summary>
-    /// Retrieves the count of pharmacists in the database.
-    /// </summary>
-    /// <returns>The count of pharmacists.</returns>
+    /// <inheritdoc/>
     public Task<int> GetPharmacistListCount()
     {
         const string sql = """
@@ -55,11 +48,7 @@ public class PharmacistRepository(IDbConnection dbConnection) : IPharmacistRepos
         return pharmacistListCount;
     }
 
-    /// <summary>
-    /// Retrieves a paged list of pharmacists asynchronously.
-    /// </summary>
-    /// <param name="pagingInfo">The paging information.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the paged list of pharmacists.</returns>
+    /// <inheritdoc/>
     public async Task<IPagedResult<Pharmacist>> GetPagedPharmacistListAsync(PagingInfo pagingInfo)
     {
         var parameters = new DynamicParameters(
@@ -84,11 +73,7 @@ public class PharmacistRepository(IDbConnection dbConnection) : IPharmacistRepos
         };
     }
 
-    /// <summary>
-    /// Retrieves a pharmacist by their ID asynchronously.
-    /// </summary>
-    /// <param name="id">The ID of the pharmacist.</param>
-    /// <returns>The pharmacist object if found, otherwise null.</returns>
+    /// <inheritdoc/>
     public async Task<Pharmacist?> GetPharmacistByIdAsync(int id)
     {
         var pharmacist = await dbConnection.QueryFirstOrDefaultAsync<Pharmacist>(
@@ -100,11 +85,7 @@ public class PharmacistRepository(IDbConnection dbConnection) : IPharmacistRepos
         return pharmacist;
     }
 
-    /// <summary>
-    /// Retrieves a list of pharmacists based on the specified pharmacy ID asynchronously.
-    /// </summary>
-    /// <param name="pharmacyId">The ID of the pharmacy.</param>
-    /// <returns>A collection of pharmacists.</returns>
+    /// <inheritdoc/>
     public async Task<IEnumerable<Pharmacist>?> GetPharmacistListByPharmacyIdAsync(int pharmacyId)
     {
         var pharmacist = await dbConnection.QueryAsync<Pharmacist>(
@@ -116,11 +97,7 @@ public class PharmacistRepository(IDbConnection dbConnection) : IPharmacistRepos
         return pharmacist;
     }
 
-    /// <summary>
-    /// Updates a pharmacist asynchronously.
-    /// </summary>
-    /// <param name="pharmacist">The pharmacist object to update.</param>
-    /// <returns>The updated pharmacist object.</returns>
+    /// <inheritdoc/>
     public async Task<Pharmacist?> UpdatePharmacistAsync(Pharmacist pharmacist)
     {
         var updatedPharmacist = await dbConnection.QueryFirstOrDefaultAsync<Pharmacist>(

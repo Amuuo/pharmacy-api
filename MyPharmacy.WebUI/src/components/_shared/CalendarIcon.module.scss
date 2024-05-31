@@ -1,0 +1,19 @@
+.test {
+   fill: whitesmoke;
+   border: 2px solid whitesmoke;
+   padding: 5px;
+   border-radius: 6px;
+   box-shadow: 3px 3px 3px black;
+   will-change: transform;
+   transition:
+      box-shadow 0.25s ease,
+      background-color 0.4s ease,
+      transform 0.1s ease;
+   margin: 3px;
+   &:hover {
+      box-shadow: 1px 1px 4px black;
+      background-color: rgba(52, 118, 140, 0.588);
+      transform: scale(0.98);
+      cursor: pointer;
+   }
+}

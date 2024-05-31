@@ -25,13 +25,11 @@ public class PharmacistService(
         PagingInfo pagingInfo
     )
     {
-        var cacheKey = $"PagedPharmacistList_{pagingInfo.PageNumber}_{pagingInfo.PageSize}";
-
         var cachedList = await cache.GetOrCreateAsync(
-            cacheKey,
-            x =>
+            key: $"PagedPharmacistList_{pagingInfo.PageNumber}_{pagingInfo.PageSize}",
+            value =>
             {
-                x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
+                value.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
                 return pharmacistRepository.GetPagedPharmacistListAsync(pagingInfo);
             }
         );
@@ -42,13 +40,11 @@ public class PharmacistService(
     ///<inheritdoc/>
     public async Task<IResult<Pharmacist?>> GetPharmacistByIdAsync(int id)
     {
-        var cacheKey = $"Pharmacist_{id}";
-
         var cachedPharmacist = await cache.GetOrCreateAsync(
-            cacheKey,
-            x =>
+            key: $"Pharmacist_{id}",
+            value =>
             {
-                x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
+                value.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
                 return pharmacistRepository.GetPharmacistByIdAsync(id);
             }
         );
@@ -63,13 +59,11 @@ public class PharmacistService(
         int pharmacyId
     )
     {
-        var cacheKey = $"PharmacistListByPharmacy_{pharmacyId}";
-
         var cachedPharmacistList = await cache.GetOrCreateAsync(
-            cacheKey,
-            x =>
+            key: $"PharmacistListByPharmacy_{pharmacyId}",
+            value =>
             {
-                x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
+                value.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
                 return pharmacistRepository.GetPharmacistListByPharmacyIdAsync(pharmacyId);
             }
         );

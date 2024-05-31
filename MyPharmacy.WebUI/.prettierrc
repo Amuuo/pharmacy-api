@@ -1,0 +1,46 @@
+{
+  "printWidth": 100,
+  "tabWidth": 3,
+  "bracketSameLine": true,
+  "overrides": [
+    {
+      "files": "*.ts",
+      "options": {
+        "tabWidth": 3,
+        "printWidth": 100,
+        "bracketSameLine": true
+      }
+    },
+    {
+      "files": "*.cs",
+      "options": {
+        "tabWidth": 3,
+        "printWidth": 100,
+        "bracketSameLine": true
+      }
+    },
+    {
+      "files": "*.tsx",
+      "options": {
+        "tabWidth": 3,
+        "printWidth": 100,
+        "bracketSameLine": true
+      }
+    },
+    {
+      "files": "*.cshtml",
+      "options": {
+        "tabWidth": 3,
+        "bracketSameLine": true
+      }
+    },
+    {
+      "files": "*.scss",
+      "options": {
+        "tabWidth": 3,
+        "printWidth": 100,
+        "bracketSameLine": true
+      }
+    }
+  ]
+}

@@ -1,55 +1,55 @@
 @keyframes slide-in-from-top {
-  from {
-    transform: translateY(-100%);
-  }
+   from {
+      transform: translateY(-100%);
+   }
 }
 
 @keyframes grow-in {
-  from {
-    height: 0px;
-  }
+   from {
+      height: 0px;
+   }
 }
 
 @keyframes slide-in-from-bottom {
-  from {
-    transform: translateY(100%);
-  }
+   from {
+      transform: translateY(100%);
+   }
 }
 
 @keyframes slide-out-to-top {
-  to {
-    transform: translateY(-100%);
-  }
+   to {
+      transform: translateY(-100%);
+   }
 }
 
 @keyframes fade-in {
-  from {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  to {
-    opacity: 100;
-  }
+   from {
+      transform: translateY(-50px);
+      opacity: 0;
+   }
+   to {
+      opacity: 100;
+   }
 }
 
 @keyframes grow-in {
-  from {
-    height: 0px;
-  }
+   from {
+      height: 0px;
+   }
 }
 
 @mixin slide-in-from-top-animation($duration) {
-  animation: slide-in-from-top $duration cubic-bezier(0.57, 0.59, 0.48, 1); //ease;// cubic-bezier(.71, 0, .33, 1.56);
+   animation: slide-in-from-top $duration cubic-bezier(0.57, 0.59, 0.48, 1); //ease;// cubic-bezier(.71, 0, .33, 1.56);
 }
 
 @mixin slide-out-to-top-animation($duration) {
-  animation: slide-out-to-top $duration cubic-bezier(0.46, -0.38, 0.43, 1); //cubic-bezier(.28,-0.29,.07,.99);
+   animation: slide-out-to-top $duration cubic-bezier(0.46, -0.38, 0.43, 1); //cubic-bezier(.28,-0.29,.07,.99);
 }
 
 @mixin slide-in-from-bottom-animation($duration) {
-  animation: slide-in-from-bottom $duration cubic-bezier(0.46, -0.38, 0.43, 1); //cubic-bezier(.28,-0.29,.07,.99);
+   animation: slide-in-from-bottom $duration cubic-bezier(0.46, -0.38, 0.43, 1); //cubic-bezier(.28,-0.29,.07,.99);
 }
 
 .slide-in-from-top {
-  animation: slide-in-from-top 500ms ease;
+   animation: slide-in-from-top 500ms ease;
 }

@@ -19,15 +19,14 @@ public class DeliveryService(
     IDeliveryRepository deliveryRepository
 ) : IDeliveryService
 {
+    /// <inheritdoc/>
     public async Task<IResult<IPagedResult<Delivery>>> GetPagedDeliveryList(PagingInfo pagingInfo)
     {
-        var cacheKey = $"PagedDeliveryList_{pagingInfo.PageNumber}_{pagingInfo.PageSize}";
-
         var cachedResult = await cache.GetOrCreateAsync(
-            cacheKey,
-            x =>
+            key: $"PagedDeliveryList_{pagingInfo.PageNumber}_{pagingInfo.PageSize}",
+            value =>
             {
-                x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
+                value.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
                 return deliveryRepository.GetPagedDeliveryListAsync(pagingInfo);
             }
         );
@@ -35,15 +34,14 @@ public class DeliveryService(
         return new Result<IPagedResult<Delivery>>(cachedResult);
     }
 
+    /// <inheritdoc/>
     public async Task<IResult<IEnumerable<Delivery>>> GetDeliveryListByPharmacyId(int pharmacyId)
     {
-        var cacheKey = $"DeliveryListByPharmacy_{pharmacyId}";
-
         var cachedResult = await cache.GetOrCreateAsync(
-            cacheKey,
-            x =>
+            key: $"DeliveryListByPharmacy_{pharmacyId}",
+            value =>
             {
-                x.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
+                value.AbsoluteExpiration = DateTime.Now.AddMinutes(5);
                 return deliveryRepository.GetDeliveryListByPharmacyIdAsync(pharmacyId);
             }
         );
@@ -51,6 +49,7 @@ public class DeliveryService(
         return new Result<IEnumerable<Delivery>>(cachedResult);
     }
 
+    /// <inheritdoc/>
     public Task<IResult<IEnumerable<Delivery>>> GetDeliveryListByWarehouseId(int warehouseId)
     {
         var deliveryListByWarehouse = dbContext.DeliveryList.Where(d =>
@@ -62,8 +61,8 @@ public class DeliveryService(
         );
     }
 
-    public async Task<IResult<Delivery>> InsertDeliveryAsync(Delivery delivery)
     /// <inheritdoc/>
+    public async Task<IResult<Delivery>> InsertDeliveryAsync(Delivery delivery)    
     {
         var warehouseExists = await dbContext.WarehouseList.AnyAsync(w =>
             w.Id == delivery.WarehouseId
