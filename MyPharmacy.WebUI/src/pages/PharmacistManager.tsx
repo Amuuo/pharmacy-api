@@ -24,7 +24,7 @@ export default function PharmacistManager() {
             style={{ height: "40px", width: "150px" }}>
             Click Me
          </button>
-         <PharmacistList enablePagination={false} />         
+         <PharmacistList enablePagination={false} />
          <PharmacistCard />
          <AddPharmacistForm />
       </div>

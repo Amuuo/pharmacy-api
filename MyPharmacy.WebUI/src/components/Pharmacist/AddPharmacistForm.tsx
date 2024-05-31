@@ -15,7 +15,7 @@ export default function AddPharmacistForm() {
 
    const { selectedPharmacist } = usePharmacistStore();
 
-   useEffect(() => { 
+   useEffect(() => {
       setFormData({
          firstName: selectedPharmacist?.firstName,
          lastName: selectedPharmacist?.lastName,

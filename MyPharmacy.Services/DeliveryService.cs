@@ -62,7 +62,7 @@ public class DeliveryService(
     }
 
     /// <inheritdoc/>
-    public async Task<IResult<Delivery>> InsertDeliveryAsync(Delivery delivery)    
+    public async Task<IResult<Delivery>> InsertDeliveryAsync(Delivery delivery)
     {
         var warehouseExists = await dbContext.WarehouseList.AnyAsync(w =>
             w.Id == delivery.WarehouseId

@@ -10,21 +10,17 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Host.UseConfiguredLogger();
 
-builder.Services     
-    .AddMemoryCache()   
+builder
+    .Services.AddMemoryCache()
     .AddCors()
     .AddCustomizedSwaggerGen()
     .AddScoped<IDbConnection>(sp => new SqlConnection(connectionString))
     .AddConfiguredDbContextPool<IPharmacyDbContext, PharmacyDbContext>(connectionString)
     .AddPharmacyServices()
     .AddHttpContextAccessor()
-    .AddControllers();    
+    .AddControllers();
 
-builder.WebHost
-    .UseIIS()
-    .UseIISIntegration()    
-    .UseContentRoot(Directory.GetCurrentDirectory());
-
+builder.WebHost.UseIIS().UseIISIntegration().UseContentRoot(Directory.GetCurrentDirectory());
 
 var app = builder.Build();
 
@@ -38,12 +34,10 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app
-    .UseCors(policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
+app.UseCors(policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
     .UseAuthorization()
     .UseAuthentication();
 
 app.MapControllers();
-
 
 await app.RunAsync();

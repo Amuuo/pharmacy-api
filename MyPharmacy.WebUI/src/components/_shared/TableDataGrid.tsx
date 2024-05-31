@@ -22,7 +22,6 @@ export default function TableDataGrid({
    onEditCellChange,
    onRowSelection,
 }: TableGridProps) {
-   
    const handleRowClick = (id: number) => {
       if (onRowSelection) {
          onRowSelection(id);

@@ -57,103 +57,100 @@ export default function PharmacyList({
          fetchPharmacyListByPharmacistId(selectedPharmacist?.id);
    }, [selectedPharmacist]);
 
-   const handlePharmacySelectionChange = (
-      newSelectedPharmacy: GridRowSelectionModel,
-   ) => {
+   const handlePharmacySelectionChange = (newSelectedPharmacy: GridRowSelectionModel) => {
       const selectedPharmacy = pharmacyList.find(
          (pharmacy) => pharmacy.id === newSelectedPharmacy[0],
       );
       setPharmacySelection(selectedPharmacy || null);
    };
 
-   const handleEditCellChange = (
-      updatedPharmacy: Pharmacy,
-      originalPharmacy: Pharmacy,
-   ) => {
-      if (!_.isEqual(updatedPharmacy, originalPharmacy))
-         editPharmacy(updatedPharmacy);
+   const handleEditCellChange = (updatedPharmacy: Pharmacy, originalPharmacy: Pharmacy) => {
+      if (!_.isEqual(updatedPharmacy, originalPharmacy)) editPharmacy(updatedPharmacy);
       return updatedPharmacy;
    };
 
-   const columns = useMemo<GridColDef<Pharmacy>[]>(() => [
-      {
-         field: "name",
-         headerName: "Name",
-         width: 200,
-         editable: true,
-         flex: 2,
-         hideable: true,
-         resizable: true,
-      },
-      {
-         field: "city",
-         headerName: "City",
-         width: 100,
-         editable: true,
-         flex: 1.5,
-         hideable: true,
-      },
-      {
-         field: "state",
-         headerName: "State",
-         width: 50,
-         editable: true,
-         flex: 0.75,
-         hideable: true,
-      },
-      {
-         field: "zip",
-         headerName: "Zip",
-         width: 80,
-         editable: true,
-         flex: 0.75,
-         hideable: true,
-      },
-      { field: "id", headerName: "ID", width: 50, hideable: true },
-      {
-         field: "address",
-         headerName: "Address",
-         width: 200,
-         flex: 1,
-         editable: true,
-         hideable: true,
-      },
-      {
-         field: "actions",
-         headerName: "",
-         width: 25,
-         flex: 0.75,
-         renderCell: () => (
-            <Button sx={{ color: "white" }}>
-               <LaunchIcon sx={{ height: "15px", color: "cyan" }} />
-            </Button>
-         ),
-      },
-      {
-         field: "prescriptionsFilled",
-         headerName: "RX Filled",
-         width: 100,
-         type: "number",
-         editable: true,
-         hideable: true,
-      },
-      {
-         field: "createdDate",
-         headerName: "Created Date",
-         width: 150,
-         type: "date",
-         editable: true,
-         hideable: true,
-      },
-      {
-         field: "updatedDate",
-         headerName: "Updated Date",
-         width: 150,
-         type: "date",
-         editable: true,
-         hideable: true,
-      },
-   ], []);
+   const columns = useMemo<GridColDef<Pharmacy>[]>(
+      () => [
+         {
+            field: "name",
+            headerName: "Name",
+            width: 200,
+            editable: true,
+            flex: 2,
+            hideable: true,
+            resizable: true,
+         },
+         {
+            field: "city",
+            headerName: "City",
+            width: 100,
+            editable: true,
+            flex: 1.5,
+            hideable: true,
+         },
+         {
+            field: "state",
+            headerName: "State",
+            width: 50,
+            editable: true,
+            flex: 0.75,
+            hideable: true,
+         },
+         {
+            field: "zip",
+            headerName: "Zip",
+            width: 80,
+            editable: true,
+            flex: 0.75,
+            hideable: true,
+         },
+         { field: "id", headerName: "ID", width: 50, hideable: true },
+         {
+            field: "address",
+            headerName: "Address",
+            width: 200,
+            flex: 1,
+            editable: true,
+            hideable: true,
+         },
+         {
+            field: "actions",
+            headerName: "",
+            width: 25,
+            flex: 0.75,
+            renderCell: () => (
+               <Button sx={{ color: "white" }}>
+                  <LaunchIcon sx={{ height: "15px", color: "cyan" }} />
+               </Button>
+            ),
+         },
+         {
+            field: "prescriptionsFilled",
+            headerName: "RX Filled",
+            width: 100,
+            type: "number",
+            editable: true,
+            hideable: true,
+         },
+         {
+            field: "createdDate",
+            headerName: "Created Date",
+            width: 150,
+            type: "date",
+            editable: true,
+            hideable: true,
+         },
+         {
+            field: "updatedDate",
+            headerName: "Updated Date",
+            width: 150,
+            type: "date",
+            editable: true,
+            hideable: true,
+         },
+      ],
+      [],
+   );
 
    return (
       <>
@@ -177,9 +174,7 @@ export default function PharmacyList({
                disableColumnFilter={!enableFilters}
                disableColumnSelector={!enableFilters}
                disableDensitySelector={!enableFilters}
-               rows={
-                  selectForPharmacist ? selectedPharmacistPharmacies : pharmacyList
-               }
+               rows={selectForPharmacist ? selectedPharmacistPharmacies : pharmacyList}
                disableColumnMenu={false}
                columns={columns}
                loading={loading}
@@ -189,9 +184,7 @@ export default function PharmacyList({
                pagination={enablePagination ? true : undefined}
                paginationMode={enablePagination ? "server" : undefined}
                paginationModel={enablePagination ? paginationModel : undefined}
-               onPaginationModelChange={
-                  enablePagination ? handlePaginationModelChange : undefined
-               }
+               onPaginationModelChange={enablePagination ? handlePaginationModelChange : undefined}
                pageSizeOptions={[5, 10, 15]}
                processRowUpdate={handleEditCellChange}
                onRowSelectionModelChange={handlePharmacySelectionChange}

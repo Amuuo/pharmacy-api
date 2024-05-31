@@ -4,8 +4,7 @@ import { NavLink } from "react-router-dom";
 import _ from "lodash";
 import CalendarIcon from "./CalendarIcon";
 
-export default function Header() {   
-   
+export default function Header() {
    return (
       <AppBar position="sticky" sx={{ gridArea: "header" }}>
          <Toolbar className={styles.toolbar}>
@@ -21,7 +20,7 @@ export default function Header() {
                   <NavLink to="/warehouse">Warehouse</NavLink>
                </div>
             </div>
-            <CalendarIcon height={40} width={40 } />
+            <CalendarIcon height={40} width={40} />
             <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
                <Avatar></Avatar>
                <span className={styles.env_text}>{import.meta.env.MODE}</span>

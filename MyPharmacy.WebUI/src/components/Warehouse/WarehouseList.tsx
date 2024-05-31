@@ -19,8 +19,9 @@ export default function WarehouseList() {
       { field: "zip", headerName: "Zip", width: 120 },
    ];
 
-   return warehouseLoading 
-      ? <LinearProgress />
-      : <DataGrid rows={warehouseList} columns={columns} rowHeight={30} columnHeaderHeight={35} />
-   ;
+   return warehouseLoading ? (
+      <LinearProgress />
+   ) : (
+      <DataGrid rows={warehouseList} columns={columns} rowHeight={30} columnHeaderHeight={35} />
+   );
 }

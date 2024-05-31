@@ -117,9 +117,7 @@ $teal-blue: #4ab0d9;
    background-color: rgba(2, 32, 85, 0.349);
 }
 
-
 .MuiDataGrid-root {
-
    font-family: "Roboto Mono", "Inter", monospace !important;
    font-size: 13px !important;
    background: var(--radial-gradient-blue);
@@ -132,10 +130,7 @@ $teal-blue: #4ab0d9;
    transition: all 400ms var(--custom-curve-3);
 }
 
-
-
 .Mui-selected {
-   
    --linear-gradient-selected: linear-gradient(
       0deg,
       rgb(152, 149, 209) 0%,
