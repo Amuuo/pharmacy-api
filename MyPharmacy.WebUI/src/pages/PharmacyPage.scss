@@ -25,9 +25,9 @@
    max-width: 1280px;
    max-height: 100% !important;
    grid-template-areas:
-         "pharmacy pharmacyCard"
-         "order pharmacist"
-         "pharmacistCard pharmacistCard";
+      "pharmacy pharmacyCard"
+      "order pharmacist"
+      "pharmacistCard pharmacistCard";
    grid-template-columns: minmax(400px, 800px) minmax(325px, 350px);
    grid-template-rows: 400px 200px 300px;
 

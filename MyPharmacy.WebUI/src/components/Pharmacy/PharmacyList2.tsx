@@ -11,10 +11,7 @@ interface PharmacyListProps {
    maxHeight?: number;
 }
 
-export default function PharmacyList({
-   selectForPharmacist,
-   maxHeight,
-}: PharmacyListProps) {
+export default function PharmacyList({ selectForPharmacist, maxHeight }: PharmacyListProps) {
    const {
       selectedPharmacistPharmacies,
       pharmacyList,
@@ -24,10 +21,13 @@ export default function PharmacyList({
    } = usePharmacyStore();
 
    const { selectedPharmacist } = usePharmacistStore();
-   const { paginationModel, handlePaginationModelChange } = usePagination({ page: 0, pageSize: 25 })
+   const { paginationModel, handlePaginationModelChange } = usePagination({
+      page: 0,
+      pageSize: 25,
+   });
    const { fetchPharmacyList } = usePharmacyStore();
 
-   useEffect(() => {       
+   useEffect(() => {
       fetchPharmacyList(paginationModel);
    }, []);
 
@@ -53,7 +53,7 @@ export default function PharmacyList({
             <div>Loading...</div> // Replace with a loading indicator as needed
          ) : (
             <DataGrid
-               data={selectForPharmacist ? selectedPharmacistPharmacies : pharmacyList}               
+               data={selectForPharmacist ? selectedPharmacistPharmacies : pharmacyList}
                columns={columns}
             />
          )}

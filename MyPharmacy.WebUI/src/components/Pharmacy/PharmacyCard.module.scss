@@ -30,26 +30,30 @@
    display: flex;
    flex-direction: row;
    justify-content: center;
-   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));   
+   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
    font-size: 12px;
    line-height: 5px;
    font-family: monospace;
    text-shadow: 1px 1px 1px black;
-   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.397);   
+   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.397);
 
    div {
       border: 4px ridge whitesmoke;
-      background: linear-gradient(rgba(122, 189, 237, 0.5) 0%, rgba(11, 33, 47, 0.5) 15%, rgba(0, 0, 0, 0.5));
+      background: linear-gradient(
+         rgba(122, 189, 237, 0.5) 0%,
+         rgba(11, 33, 47, 0.5) 15%,
+         rgba(0, 0, 0, 0.5)
+      );
       padding: 0.25rem;
       margin: 0.5rem;
-      border-radius: 5px;    
-      box-shadow: var(--box-shadow-style);  
+      border-radius: 5px;
+      box-shadow: var(--box-shadow-style);
       display: flex;
       flex-direction: column;
       gap: 10px;
       justify-content: start;
 
-      label {         
+      label {
          color: whitesmoke;
          // display: flex;
          padding: 0.5rem;
@@ -65,9 +69,8 @@
    color: aqua;
 }
 
-
 .card_header {
-   font-family: 'Fira Code';
+   font-family: "Fira Code";
    font-weight: bold;
    text-transform: uppercase;
    font-size: 16px;

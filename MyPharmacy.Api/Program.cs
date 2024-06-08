@@ -21,7 +21,6 @@ builder
     .AddControllers()
     .Services.AddGraphQLServer();
 
-
 builder.WebHost.UseIIS().UseIISIntegration().UseContentRoot(Directory.GetCurrentDirectory());
 
 var app = builder.Build();

@@ -20,9 +20,7 @@ interface PharmacistListProps {
    enablePagination?: boolean;
 }
 
-export default function PharmacistList({
-   enablePagination = true,
-}: PharmacistListProps) {
+export default function PharmacistList({ enablePagination = true }: PharmacistListProps) {
    const { paginationModel, handlePaginationModelChange } = usePagination({
       page: 0,
       pageSize: 10,

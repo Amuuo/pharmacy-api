@@ -1,13 +1,13 @@
-import { useState, useRef, useEffect, useMemo } from 'react';
-import styles from './DataGrid.module.scss';
-import * as React from 'react';
-import { usePharmacyStore } from '../../stores/pharmacyStoreTest';
+import { useState, useRef, useEffect, useMemo } from "react";
+import styles from "./DataGrid.module.scss";
+import * as React from "react";
+import { usePharmacyStore } from "../../stores/pharmacyStoreTest";
 
 interface Column {
    header: string;
    accessor: string;
    width?: string;
-   textAlign?: 'left' | 'right' | 'center';
+   textAlign?: "left" | "right" | "center";
    render?: (item: any) => React.ReactNode;
    visible?: boolean;
 }
@@ -18,10 +18,14 @@ interface DataGridProps {
 }
 
 export default function DataGrid({ data, columns }: DataGridProps) {
-   const visibleColumns = columns.filter(col => col.visible !== false);
-   const [columnWidths, setColumnWidths] = useState(visibleColumns.map((col) => col.width || 'auto'));
+   const visibleColumns = columns.filter((col) => col.visible !== false);
+   const [columnWidths, setColumnWidths] = useState(
+      visibleColumns.map((col) => col.width || "auto"),
+   );
    const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
-   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+   const [sortConfig, setSortConfig] = useState<{ key: string; direction: "asc" | "desc" } | null>(
+      null,
+   );
    const [filters, setFilters] = useState<{ [key: string]: string }>({});
    const resizingColumn = useRef<number | null>(null);
    const startWidth = useRef<number>(0);
@@ -37,11 +41,14 @@ export default function DataGrid({ data, columns }: DataGridProps) {
       }
    }, [data, columns]);
 
-   const handleResizeMouseDown = (index: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+   const handleResizeMouseDown = (
+      index: number,
+      event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+   ) => {
       event.preventDefault();
       event.stopPropagation();
-      document.body.style.userSelect = 'none';
-      document.body.style.cursor = 'grabbing';
+      document.body.style.userSelect = "none";
+      document.body.style.cursor = "grabbing";
 
       const columnHeader = event.currentTarget.parentElement;
       startWidth.current = columnHeader ? columnHeader.offsetWidth : 0;
@@ -60,23 +67,23 @@ export default function DataGrid({ data, columns }: DataGridProps) {
       };
 
       const onResizeMouseUp = () => {
-         document.removeEventListener('mousemove', onMouseMove);
-         document.removeEventListener('mouseup', onResizeMouseUp);
-         document.body.style.userSelect = '';
-         document.body.style.cursor = '';
+         document.removeEventListener("mousemove", onMouseMove);
+         document.removeEventListener("mouseup", onResizeMouseUp);
+         document.body.style.userSelect = "";
+         document.body.style.cursor = "";
          resizingColumn.current = null;
          setDisablePointerEvents(false);
       };
 
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onResizeMouseUp);
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onResizeMouseUp);
       setDisablePointerEvents(true);
    };
 
    const handleSort = (accessor: string) => {
-      let direction: 'asc' | 'desc' = 'asc';
-      if (sortConfig && sortConfig.key === accessor && sortConfig.direction === 'asc') {
-         direction = 'desc';
+      let direction: "asc" | "desc" = "asc";
+      if (sortConfig && sortConfig.key === accessor && sortConfig.direction === "asc") {
+         direction = "desc";
       }
       setSortConfig({ key: accessor, direction });
    };
@@ -99,8 +106,8 @@ export default function DataGrid({ data, columns }: DataGridProps) {
    const sortedData = useMemo(() => {
       if (!sortConfig) return filteredData;
       const sorted = [...filteredData].sort((a, b) => {
-         if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'asc' ? -1 : 1;
-         if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'asc' ? 1 : -1;
+         if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === "asc" ? -1 : 1;
+         if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === "asc" ? 1 : -1;
          return 0;
       });
       return sorted;
@@ -111,7 +118,7 @@ export default function DataGrid({ data, columns }: DataGridProps) {
          key={column.accessor}
          type="text"
          placeholder={`${column.header}`}
-         value={filters[column.accessor] || ''}
+         value={filters[column.accessor] || ""}
          onChange={(e) => handleFilterChange(column.accessor, e.target.value)}
          className={styles.filterInput}
       />
@@ -120,15 +127,15 @@ export default function DataGrid({ data, columns }: DataGridProps) {
    const tableHeaders = visibleColumns.map((column, index) => (
       <th
          key={index}
-         style={{ width: columnWidths[index], textAlign: column.textAlign || 'center' }}
-         className={`${hoveredColumn === index ? styles.highlight_border : ''} ${
-            disablePointerEvents ? styles.noPointerEvents : ''
+         style={{ width: columnWidths[index], textAlign: column.textAlign || "center" }}
+         className={`${hoveredColumn === index ? styles.highlight_border : ""} ${
+            disablePointerEvents ? styles.noPointerEvents : ""
          } ${styles.table_header_cell} ${styles.glassEffect}`}
          onClick={() => handleSort(column.accessor)}>
          {column.header}
          {sortConfig?.key === column.accessor && (
-            <span style={{ fontSize: '20px' }} className={styles.sortArrow}>
-               {sortConfig.direction === 'asc' ? '▲' : '↴'}
+            <span style={{ fontSize: "20px" }} className={styles.sortArrow}>
+               {sortConfig.direction === "asc" ? "▲" : "↴"}
             </span>
          )}
          <div
@@ -150,8 +157,8 @@ export default function DataGrid({ data, columns }: DataGridProps) {
          {visibleColumns.map((column, colIndex) => (
             <td
                key={colIndex}
-               style={{ textAlign: column.textAlign || 'left' }}
-               className={hoveredColumn === colIndex ? styles.highlight_border : ''}>
+               style={{ textAlign: column.textAlign || "left" }}
+               className={hoveredColumn === colIndex ? styles.highlight_border : ""}>
                {column.render ? column.render(item) : item[column.accessor]}
             </td>
          ))}
@@ -160,9 +167,7 @@ export default function DataGrid({ data, columns }: DataGridProps) {
 
    return (
       <div className={styles.data_grid_container}>
-         <div className={`${styles.filters} ${styles.glassEffect}`}>
-            {filterInputs}
-         </div>
+         <div className={`${styles.filters} ${styles.glassEffect}`}>{filterInputs}</div>
          <div className={styles.data_grid_wrapper}>
             <table className={styles.table} ref={tableRef}>
                <thead>

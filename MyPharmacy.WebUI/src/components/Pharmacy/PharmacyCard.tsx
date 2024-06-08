@@ -34,7 +34,7 @@ export default function PharmacySelectionCard() {
                      className={styles.card_media}
                   />
                   <div className={styles.card_header}>
-                     <h2>{currentPharmacy.name}</h2>                     
+                     <h2>{currentPharmacy.name}</h2>
                   </div>
                   <div className={styles.card_content}>
                      <div>
@@ -45,7 +45,9 @@ export default function PharmacySelectionCard() {
                         </span>
                      </div>
                      <div>
-                        <label className={styles.text_secondary} style={{ color: "$dark-blue"}}>RX Filled</label>
+                        <label className={styles.text_secondary} style={{ color: "$dark-blue" }}>
+                           RX Filled
+                        </label>
                         <p>{currentPharmacy.prescriptionsFilled}</p>
                      </div>
                   </div>

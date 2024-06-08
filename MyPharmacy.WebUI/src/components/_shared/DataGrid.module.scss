@@ -4,20 +4,20 @@
    flex-direction: column;
    gap: 10px;
    width: 100%;
-   height: 100%;   
+   height: 100%;
    overflow-y: scroll;
    overflow-x: hidden;
    margin: 0 auto;
    background: var(--gradient-complex-2);
-   font-family: 'Roboto Mono', sans-serif;
+   font-family: "Roboto Mono", sans-serif;
    font-size: 12px;
    // padding: 15px;
 }
 
-.data_grid_container {   
+.data_grid_container {
    border: 2px solid white;
    border-radius: 5px;
-   overflow:hidden;
+   overflow: hidden;
    height: 100%;
 }
 
@@ -25,21 +25,19 @@
    border-collapse: collapse;
    width: 100%;
    text-wrap: nowrap;
-   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.48);   
+   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.48);
    border-radius: 5px;
    height: auto;
-
 }
 
-thead {   
+thead {
    position: sticky;
-   top: -2px;   
+   top: -2px;
 }
 
 tbody {
    width: 100%;
 }
-
 
 th {
    position: relative;
@@ -53,7 +51,7 @@ th {
 }
 
 tbody {
-   width: 100% !important;   
+   width: 100% !important;
    overflow-y: scroll !important;
    // display: block;
 }
@@ -68,8 +66,6 @@ th {
    border: 1px solid black !important;
    padding: 2px 10px;
    text-overflow: ellipsis;
-
-   
 }
 
 td:hover {
@@ -141,7 +137,7 @@ th:hover {
    justify-content: center;
    margin-bottom: 0px;
    gap: 5px;
-   overflow:hidden;
+   overflow: hidden;
    // max-width: 500px;
    flex-wrap: nowrap;
    background: linear-gradient(90deg, rgba(36, 49, 231, 0.5) 0%, rgba(20, 113, 53, 0.5) 100%);
@@ -171,4 +167,3 @@ th:hover {
 .noPointerEvents {
    pointer-events: none;
 }
-
