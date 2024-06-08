@@ -18,7 +18,9 @@ builder
     .AddConfiguredDbContextPool<IPharmacyDbContext, PharmacyDbContext>(connectionString)
     .AddPharmacyServices()
     .AddHttpContextAccessor()
-    .AddControllers();
+    .AddControllers()
+    .Services.AddGraphQLServer();
+
 
 builder.WebHost.UseIIS().UseIISIntegration().UseContentRoot(Directory.GetCurrentDirectory());
 
@@ -33,6 +35,13 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyPharmacy API V1");
     });
 }
+
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGraphQL();
+});
 
 app.UseCors(policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
     .UseAuthorization()

@@ -13,6 +13,8 @@
     <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
     <PackageReference Include="Azure.Storage.Files.Shares" Version="12.17.1" />
     <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="hotchocolate.aspnetcore" Version="13.9.5" />
+    <PackageReference Include="HotChocolate.Aspnetcore.playground" Version="10.5.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4" />

@@ -1,0 +1,100 @@
+@import "../../src/styles/animations.scss";
+
+:root {
+   --transition-base: 300ms;
+   --grid-gap-small: 0.5rem;
+   --grid-gap-large: 2rem;
+   --padding-small: 1rem;
+   --padding-large: 2rem;
+   --min-width-small: 300px;
+   --max-width-small: 750px;
+   --min-width-large: 750px;
+   --logo-height: 6em;
+   --logo-padding: 1.5em;
+   --card-padding: 2em;
+   --text-color-light: #888;
+   --font-family-base: "Proza Libre", sans-serif;
+}
+
+.PharmacyPage {
+   transition: var(--transition-base);
+   grid-area: main;
+   display: grid;
+   will-change: transform;
+   min-width: 450px;
+   max-width: 1280px;
+   max-height: 100% !important;
+   grid-template-areas:
+         "pharmacy pharmacyCard"
+         "order pharmacist"
+         "pharmacistCard pharmacistCard";
+   grid-template-columns: minmax(400px, 800px) minmax(325px, 350px);
+   grid-template-rows: 400px 200px 300px;
+
+   padding: var(--padding-large);
+   grid-gap: var(--grid-gap-large);
+
+   @media screen and (min-width: var(--min-width-small)) and (max-width: var(--max-width-small)) {
+      grid-template-areas:
+         "pharmacyCard" "pharmacy"
+         "order" "pharmacist";
+      grid-template-columns: minmax(var(--min-width-small), 600px);
+      grid-template-rows: 225px 250px minmax(0, 225px) minmax(0, 250px);
+      padding: var(--padding-small);
+      grid-gap: var(--grid-gap-small);
+   }
+   @media screen and (min-width: var(--min-width-large)) {
+      grid-template-areas:
+         "pharmacy pharmacyCard"
+         "order pharmacist"
+         "pharmacistCard pharmacistCard";
+      grid-template-columns: minmax(400px, 600px) minmax(325px, 350px);
+      grid-template-rows: 400px 200px 300px;
+      padding: var(--padding-large);
+      grid-gap: var(--grid-gap-large);
+   }
+}
+.pharmacy-section,
+.card-section {
+   display: flex;
+   flex-direction: column;
+   grid-gap: var(--grid-gap-large);
+}
+.card-section {
+   grid-gap: 1.5rem; // Consider if this should also be a variable
+}
+.logo {
+   height: var(--logo-height);
+   padding: var(--logo-padding);
+   will-change: filter;
+   transition: filter var(--transition-base);
+   &:hover {
+      filter: drop-shadow(0 0 2em #646cffaa);
+      &.react {
+         filter: drop-shadow(0 0 2em #61dafbaa);
+      }
+   }
+   @media (prefers-reduced-motion: no-preference) {
+      a:nth-of-type(2) & {
+         animation: logo-spin infinite 20s linear;
+      }
+   }
+}
+@keyframes logo-spin {
+   from {
+      transform: rotate(0deg);
+   }
+   to {
+      transform: rotate(360deg);
+   }
+}
+.card {
+   padding: var(--card-padding);
+}
+.read-the-docs {
+   color: var(--text-color-light);
+}
+h1 {
+   font-family: var(--font-family-base);
+   font-weight: 800;
+}

@@ -5,9 +5,12 @@ import { useEffect, useState } from "react";
 import { pharmacistStore } from "../../stores/pharmacistStore";
 import PharmacyList from "../Pharmacy/PharmacyList";
 import styles from "./PharmacistCard.module.scss";
+import PharmacyList2 from "../Pharmacy/PharmacyList2";
+import { usePharmacistStore } from "../../stores/pharmacistStoreTest";
 
 export default function PharmacistCard() {
-   const { selectedPharmacist } = useStore(pharmacistStore);
+   //const { selectedPharmacist } = useStore(pharmacistStore);
+   const { selectedPharmacist } = usePharmacistStore();
 
    const [isOutgoing, setIsOutgoing] = useState(false);
    const [currentPharmacist, setCurrentPharmacist] = useState(selectedPharmacist);
@@ -80,13 +83,14 @@ export default function PharmacistCard() {
                      </div>
                      <div className={styles.pharmacyListContainer}>
                         <Typography gutterBottom>Assigned Pharmacies:</Typography>
-                        <PharmacyList
+                        {/* <PharmacyList
                            columnHeaderHeight={30}
                            maxHeight={200}
                            selectForPharmacist={true}
                            enablePagination={false}
                            enableFilters={false}
-                        />
+                        /> */}
+                        <PharmacyList2/>
                      </div>
                   </CardContent>
                </Card>

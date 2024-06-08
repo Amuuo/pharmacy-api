@@ -2,7 +2,7 @@ import LaunchIcon from "@mui/icons-material/Launch";
 import { Button, LinearProgress } from "@mui/material";
 import { DataGrid, GridColDef, GridEventListener, GridRowSelectionModel } from "@mui/x-data-grid";
 import { useStore } from "effector-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import usePagination from "../../hooks/usePagination";
 import { Pharmacist } from "../../models/pharmacist";
@@ -21,7 +21,6 @@ interface PharmacistListProps {
 }
 
 export default function PharmacistList({
-   selectForPharmacy = false,
    enablePagination = true,
 }: PharmacistListProps) {
    const { paginationModel, handlePaginationModelChange } = usePagination({
@@ -30,7 +29,6 @@ export default function PharmacistList({
    });
    const { pharmacistList, loadingPharmacistList, totalCount } = useStore(pharmacistStore);
    const { selectedPharmacy } = usePharmacyStore(); //useStore(pharmacyStore);
-   const [isOutgoing, setIsOutgoing] = useState(false);
 
    const navigate = useNavigate();
 
@@ -40,14 +38,6 @@ export default function PharmacistList({
 
    useEffect(() => {
       fetchPharmacistListByPharmacyIdFx(selectedPharmacy?.id ?? 0);
-      // if (selectedPharmacy?.id && selectForPharmacy) {
-      //    setIsOutgoing(true);
-
-      //    setTimeout(() => {
-      //       fetchPharmacistListByPharmacyIdFx(selectedPharmacy.id ?? 0);
-      //       setIsOutgoing(false);
-      //    }, 200);
-      // }
    }, [selectedPharmacy?.id]);
 
    const columns = useMemo<GridColDef<Pharmacist>[]>(

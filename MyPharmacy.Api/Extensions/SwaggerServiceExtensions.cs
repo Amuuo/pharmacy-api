@@ -18,7 +18,7 @@ public static class SwaggerServiceExtensions
         {
             // Include XML comments from the executing assembly
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
             c.IncludeXmlComments(xmlPath);
 
             // Automatically find and include XML comments from referenced assemblies
@@ -29,7 +29,7 @@ public static class SwaggerServiceExtensions
                 {
                     var assembly = Assembly.Load(assemblyName);
                     var referencedXmlFile = $"{assembly.GetName().Name}.xml";
-                    var referencedXmlPath = Path.Combine(AppContext.BaseDirectory, referencedXmlFile);
+                    var referencedXmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, referencedXmlFile);
 
                     // Check if the XML documentation file exists before adding it
                     if (File.Exists(referencedXmlPath))

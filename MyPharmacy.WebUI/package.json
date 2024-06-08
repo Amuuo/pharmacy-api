@@ -26,6 +26,7 @@
     "express": "^4.18.2",
     "material-react-table": "^2.13.0",
     "moment": "^2.30.1",
+    "my-react-playground": "file:../../my-react-playground",
     "react": "^18.2.0",
     "react-date-picker": "^10.5.0",
     "react-datepicker": "^4.17.0",
