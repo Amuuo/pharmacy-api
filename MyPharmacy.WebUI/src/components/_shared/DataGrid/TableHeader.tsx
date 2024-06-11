@@ -13,7 +13,10 @@ interface TableHeaderProps {
    columnWidths: string[];
    sortConfig: { key: string; direction: "asc" | "desc" } | null;
    handleSort: (accessor: string) => void;
-   handleResizeMouseDown: (index: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+   handleResizeMouseDown: (
+      index: number,
+      event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+   ) => void;
 }
 
 export const TableHeader: React.FC<TableHeaderProps> = ({
@@ -31,8 +34,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
                   key={index}
                   style={{ width: columnWidths[index], textAlign: column.textAlign || "center" }}
                   className={styles.table_header_cell}
-                  onClick={() => handleSort(column.accessor)}
-               >
+                  onClick={() => handleSort(column.accessor)}>
                   {column.header}
                   {sortConfig?.key === column.accessor && (
                      <span style={{ fontSize: "20px" }} className={styles.sortArrow}>

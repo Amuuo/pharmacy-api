@@ -69,12 +69,12 @@ export default function PharmacistList({ enablePagination = true }: PharmacistLi
          //    ),
          // },
       ],
-      []
+      [],
    );
 
    const handlePharmacistSelectionChange = (newSelectedPharmacist: any) => {
       const selectedPharmacist = pharmacistList.find(
-         (pharmacist) => pharmacist.id === newSelectedPharmacist[0]
+         (pharmacist) => pharmacist.id === newSelectedPharmacist[0],
       );
       setPharmacistSelection(selectedPharmacist || null);
    };
@@ -98,7 +98,7 @@ export default function PharmacistList({ enablePagination = true }: PharmacistLi
             onRowSelect={handlePharmacistSelectionChange}
             onDoubleClick={handleRowDoubleClick}
             data={pharmacistList}
-            columns={columns}                  
+            columns={columns}
          />
       </div>
    );

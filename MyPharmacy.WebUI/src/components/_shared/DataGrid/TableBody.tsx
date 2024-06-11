@@ -39,14 +39,12 @@ export const TableBody: React.FC<TableBodyProps> = ({
                key={rowIndex}
                onClick={() => handleRowClick(item, rowIndex)}
                onDoubleClick={() => handleRowDoubleClick(item)}
-               className={selectedRow === rowIndex ? styles.selectedRow : ""}
-            >
+               className={selectedRow === rowIndex ? styles.selectedRow : ""}>
                {columns.map((column, colIndex) => (
                   <td
                      key={colIndex}
                      style={{ textAlign: column.textAlign || "left" }}
-                     className={styles.table_cell}
-                  >
+                     className={styles.table_cell}>
                      {column.render ? column.render(item) : item[column.accessor]}
                   </td>
                ))}

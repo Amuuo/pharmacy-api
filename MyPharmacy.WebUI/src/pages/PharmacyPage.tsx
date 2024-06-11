@@ -6,7 +6,6 @@ import PharmacyList2 from "../components/Pharmacy/PharmacyList2";
 import DeliveryList2 from "../components/Delivery/DeliveryList2";
 
 export default function PharmacyPage() {
-
    return (
       <div className="PharmacyPage slide-in-from-top">
          <PharmacyList2></PharmacyList2>

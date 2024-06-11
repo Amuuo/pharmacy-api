@@ -12,7 +12,6 @@ import { usePharmacyStore } from "../../stores/pharmacyStoreTest";
 import styles from "./DeliveryList.module.scss";
 import DataGrid from "../_shared/DataGrid/DataGrid";
 
-
 interface DeliveryListProps {
    height?: string;
    maxHeight?: string;
@@ -51,7 +50,7 @@ export default function DeliveryList2({
 
    const columns = [
       { header: "Drug Name", accessor: "drugName", visible: true },
-      { header: "Count", textAlign: 'right', accessor: "unitCount", visible: true },
+      { header: "Count", textAlign: "right", accessor: "unitCount", visible: true },
       {
          header: "Price",
          accessor: "unitPrice",
@@ -87,11 +86,7 @@ export default function DeliveryList2({
       </h3>
    ) : (
       <div className={styles.DeliveryListContainer} style={{ maxHeight: maxHeight }}>
-         <DataGrid
-            data={deliveryList}
-            columns={columns}
-            enableFilters={false}
-         />
+         <DataGrid data={deliveryList} columns={columns} enableFilters={false} />
       </div>
    );
 }

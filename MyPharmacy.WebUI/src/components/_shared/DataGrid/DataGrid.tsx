@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./DataGrid.module.scss"
+import styles from "./DataGrid.module.scss";
 import { TableHeader } from "./TableHeader";
 import { TableBody } from "./TableBody";
 import { FilterRow } from "./FilterRow";
@@ -36,7 +36,13 @@ export default function DataGrid({
 
    return (
       <div className={styles.data_grid_container}>
-         {enableFilters && <FilterRow columns={visibleColumns} filters={filters} onFilterChange={handleFilterChange} />}
+         {enableFilters && (
+            <FilterRow
+               columns={visibleColumns}
+               filters={filters}
+               onFilterChange={handleFilterChange}
+            />
+         )}
          <div className={styles.data_grid_wrapper}>
             <table className={styles.table}>
                <TableHeader

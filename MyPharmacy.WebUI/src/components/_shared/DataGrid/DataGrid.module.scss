@@ -9,7 +9,7 @@
    // overflow-x: scroll;
    margin: 0 auto;
    background: linear-gradient(45deg, rgba(87, 113, 153, 0.5) 0%, rgba(20, 51, 113, 0.5) 100%);
-   
+
    font-family: "Roboto Mono", sans-serif;
    font-size: 12px;
    // padding: 15px;
@@ -42,7 +42,7 @@ tbody {
 
 th {
    position: relative;
-   height: 25px;   
+   height: 25px;
    width: 100%;
    background: linear-gradient(to top, #3665bd, #3d498d, #566f79);
    color: #d7d7d7; // Changed color to white for better contrast
@@ -176,13 +176,12 @@ th:hover {
    animation: selected-row-animation 5s ease-in-out;
 
    @starting-style {
-      background: rgb(182, 193, 237) !important;;
+      background: rgb(182, 193, 237) !important;
    }
-
 }
 
 @keyframes selected-row-animation {
    from {
       background: rgb(182, 193, 237) !important;
-   }   
+   }
 }
