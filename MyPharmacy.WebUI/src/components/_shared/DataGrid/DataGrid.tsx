@@ -44,7 +44,13 @@ export default function DataGrid({
 
    return (
       <div className={styles.data_grid_container}>
-         {enableFilters && <FilterRow columns={visibleColumns} filters={filters} onFilterChange={handleFilterChange} />}
+         {enableFilters && (
+            <FilterRow
+               columns={visibleColumns}
+               filters={filters}
+               onFilterChange={handleFilterChange}
+            />
+         )}
          <div className={styles.data_grid_wrapper}>
             <table className={styles.table} ref={tableRef}>
                <TableHeader
