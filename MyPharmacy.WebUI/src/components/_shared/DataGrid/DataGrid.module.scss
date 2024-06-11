@@ -4,11 +4,12 @@
    flex-direction: column;
    gap: 10px;
    width: 100%;
-   height: 100%;
-   overflow-y: scroll;
-   overflow-x: hidden;
+   // height: 100%;
+   // overflow-y: scroll;
+   // overflow-x: scroll;
    margin: 0 auto;
-   background: var(--gradient-complex-2);
+   background: linear-gradient(45deg, rgba(87, 113, 153, 0.5) 0%, rgba(20, 51, 113, 0.5) 100%);
+   
    font-family: "Roboto Mono", sans-serif;
    font-size: 12px;
    // padding: 15px;
@@ -17,8 +18,8 @@
 .data_grid_container {
    border: 2px solid white;
    border-radius: 5px;
-   overflow: hidden;
-   height: 100%;
+   overflow-y: scroll;
+   max-height: 100%;
 }
 
 .table {
@@ -41,10 +42,11 @@ tbody {
 
 th {
    position: relative;
-   height: 40px;
+   height: 25px;   
    width: 100%;
-   background: linear-gradient(to top, #76589e, #cba7e4, #566f79);
-   color: #0e1714; // Changed color to white for better contrast
+   background: linear-gradient(to top, #3665bd, #3d498d, #566f79);
+   color: #d7d7d7; // Changed color to white for better contrast
+   font-weight: bolder;
    display: flexbox;
    justify-content: space-between;
    align-items: center;
@@ -166,4 +168,21 @@ th:hover {
 
 .noPointerEvents {
    pointer-events: none;
+}
+
+.selectedRow {
+   background: rgb(74, 94, 176) !important;
+   transition: background 0.2s ease-out;
+   animation: selected-row-animation 5s ease-in-out;
+
+   @starting-style {
+      background: rgb(182, 193, 237) !important;;
+   }
+
+}
+
+@keyframes selected-row-animation {
+   from {
+      background: rgb(182, 193, 237) !important;
+   }   
 }

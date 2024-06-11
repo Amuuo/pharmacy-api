@@ -18,6 +18,10 @@
       overflow: hidden;
    }
 
+   table { 
+      height: 100px;
+   }
+
    @starting-style {
       transform: translateY(-5%) scale(0.97);
       opacity: 0.5;

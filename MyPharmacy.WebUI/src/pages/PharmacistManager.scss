@@ -1,14 +1,8 @@
 @import "../../src/styles/animations.scss";
 
 .PharmacistManager {
-   display: grid;
-   grid-template-areas:
-      "pharmacistCard pharmacistCard"
-      "pharmacist ."
-      "pharmacy pharmacy";
-   grid-template-columns: minmax(300px, 450px) auto; //minmax(300px, 350px);
-   // grid-template-rows: masonry;
-   grid-template-rows: auto auto 1fr;
+   display: flex;
+   flex-direction: column;
    max-width: 1200px;
    min-width: 400px;
    padding: 2rem;

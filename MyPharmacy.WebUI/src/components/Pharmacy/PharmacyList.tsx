@@ -158,7 +158,6 @@ export default function PharmacyList({
             <LinearProgress className={styles.PharmacyGrid} />
          ) : (
             <DataGrid
-               resizeable={true}
                className={styles.PharmacyGrid}
                sx={{ maxHeight: maxHeight, height: "auto" }}
                initialState={{

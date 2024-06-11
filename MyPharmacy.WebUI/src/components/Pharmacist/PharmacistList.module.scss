@@ -4,8 +4,8 @@
    grid-area: pharmacist;
    //animation: grow-in 0.4s cubic-bezier(.71,0,.33,1.56) ;
    transition: all 400ms var(--custom-curve-3); //cubic-bezier(.11,.64,.85,.46);
-   height: fit-content !important;
-   max-height: 100% !important;
+   // height: fit-content !important;
+   // max-height: 100% !important;
    overflow: hidden;
    width: 100%;
    &:hover {

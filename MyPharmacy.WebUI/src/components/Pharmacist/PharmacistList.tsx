@@ -1,19 +1,13 @@
 import LaunchIcon from "@mui/icons-material/Launch";
 import { Button, LinearProgress } from "@mui/material";
-import { DataGrid, GridColDef, GridEventListener, GridRowSelectionModel } from "@mui/x-data-grid";
-import { useStore } from "effector-react";
 import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import usePagination from "../../hooks/usePagination";
-import { Pharmacist } from "../../models/pharmacist";
-import {
-   fetchPharmacistListByPharmacyIdFx,
-   fetchPharmacistListFx,
-   pharmacistStore,
-   setPharmacistSelection,
-} from "../../stores/pharmacistStore";
+import { usePharmacistStore } from "../../stores/pharmacistStoreTest";
 import { usePharmacyStore } from "../../stores/pharmacyStoreTest";
+
 import styles from "./PharmacistList.module.scss";
+import DataGrid from "../_shared/DataGrid/DataGrid";
 
 interface PharmacistListProps {
    selectForPharmacy?: boolean;
@@ -25,84 +19,68 @@ export default function PharmacistList({ enablePagination = true }: PharmacistLi
       page: 0,
       pageSize: 10,
    });
-   const { pharmacistList, loadingPharmacistList, totalCount } = useStore(pharmacistStore);
-   const { selectedPharmacy } = usePharmacyStore(); //useStore(pharmacyStore);
+   const {
+      pharmacistList,
+      loadingPharmacistList,
+      totalCount,
+      setPharmacistSelection,
+      fetchPharmacistList,
+      fetchPharmacistListByPharmacyId,
+   } = usePharmacistStore();
+   const { selectedPharmacy } = usePharmacyStore();
+   const { selectedPharmacist } = usePharmacistStore();
 
    const navigate = useNavigate();
 
    useEffect(() => {
-      if (!selectedPharmacy) fetchPharmacistListFx(paginationModel);
+      if (!selectedPharmacy) fetchPharmacistList(paginationModel);
    }, [paginationModel]);
 
    useEffect(() => {
-      fetchPharmacistListByPharmacyIdFx(selectedPharmacy?.id ?? 0);
+      fetchPharmacistListByPharmacyId(selectedPharmacy?.id ?? 0);
    }, [selectedPharmacy?.id]);
 
-   const columns = useMemo<GridColDef<Pharmacist>[]>(
+   const columns = useMemo(
       () => [
          {
-            field: "fullName",
-            headerName: "Pharmacist",
-            width: 150,
-            flex: 2,
-            maxWidth: 150,
-            valueGetter: (params) => `${params.row.firstName} ${params.row.lastName}`,
+            header: "Pharmacist",
+            accessor: "fullName",
+            width: "150px",
+            render: (item: any) => `${item.firstName} ${item.lastName}`,
          },
          {
-            field: "primaryRx",
-            headerName: "Primary RX",
-            width: 150,
-            flex: 1,
-            editable: true,
+            header: "Primary RX",
+            accessor: "primaryRx",
+            width: "150px",
          },
-         { field: "id", headerName: "ID", width: 100, hideable: true },
-         {
-            field: "firstName",
-            headerName: "First Name",
-            width: 130,
-            hideable: true,
-         },
-         {
-            field: "lastName",
-            headerName: "Last Name",
-            width: 130,
-            hideable: true,
-         },
-         { field: "age", headerName: "Age", width: 80, hideable: true },
-         {
-            field: "hireDate",
-            headerName: "Hire Date",
-            width: 150,
-            maxWidth: 150,
-            hideable: true,
-         },
-         {
-            field: "actions",
-            headerName: "Action",
-            renderHeader: () => <LaunchIcon />,
-            width: 75,
-            flex: 0.75,
-            renderCell: () => {
-               return (
-                  <Button>
-                     <LaunchIcon />
-                  </Button>
-               );
-            },
-         },
+         { header: "ID", accessor: "id", width: "100px", visible: false },
+         { header: "First Name", accessor: "firstName", width: "130px", visible: false },
+         { header: "Last Name", accessor: "lastName", width: "130px", visible: false },
+         { header: "Age", accessor: "age", width: "80px", visible: false },
+         { header: "Hire Date", accessor: "hireDate", width: "150px", visible: false },
+         // {
+         //    header: "Action",
+         //    accessor: "actions",
+         //    width: "75px",
+         //    render: () => (
+         //       <Button>
+         //          <LaunchIcon />
+         //       </Button>
+         //    ),
+         // },
       ],
-      [],
+      []
    );
 
-   const handlePharmacistSelectionChange = (newSelectedPharmacist: GridRowSelectionModel) => {
+   const handlePharmacistSelectionChange = (newSelectedPharmacist: any) => {
       const selectedPharmacist = pharmacistList.find(
-         (pharmacist) => pharmacist.id === newSelectedPharmacist[0],
+         (pharmacist) => pharmacist.id === newSelectedPharmacist[0]
       );
       setPharmacistSelection(selectedPharmacist || null);
    };
 
-   const handleRowDoubleClick: GridEventListener<"rowDoubleClick"> = (params, _event) => {
-      setPharmacistSelection(params.row);
+   const handleRowDoubleClick = (params: any) => {
+      setPharmacistSelection(params);
       navigate("/pharmacists");
    };
 
@@ -115,33 +93,13 @@ export default function PharmacistList({ enablePagination = true }: PharmacistLi
    }
 
    return (
-      <DataGrid
-         initialState={{
-            columns: {
-               columnVisibilityModel: {
-                  firstName: false,
-                  lastName: false,
-                  hireDate: false,
-                  age: false,
-                  id: false,
-               },
-            },
-         }}
-         className={styles.pharmacistGrid}
-         pagination={enablePagination ? true : undefined}
-         paginationMode={enablePagination ? "server" : undefined}
-         paginationModel={enablePagination ? paginationModel : undefined}
-         hideFooter={!enablePagination}
-         pageSizeOptions={[5, 10, 15]}
-         rowCount={totalCount}
-         rows={pharmacistList}
-         onRowDoubleClick={handleRowDoubleClick}
-         columns={columns}
-         loading={loadingPharmacistList}
-         rowHeight={30}
-         columnHeaderHeight={35}
-         onPaginationModelChange={handlePaginationModelChange}
-         onRowSelectionModelChange={handlePharmacistSelectionChange}
-      />
+      <div className={styles.pharmacistGrid}>
+         <DataGrid
+            onRowSelect={handlePharmacistSelectionChange}
+            onDoubleClick={handleRowDoubleClick}
+            data={pharmacistList}
+            columns={columns}                  
+         />
+      </div>
    );
 }

@@ -1,8 +1,8 @@
-import LinearProgress from "@mui/material/LinearProgress";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useStore } from "effector-react";
 import { useEffect } from "react";
+import { useStore } from "effector-react";
 import { getWarehouseList, warehouseStore } from "../../stores/warehouseStore";
+import styles from "./WarehouseList.module.scss";
+import DataGrid from "../_shared/DataGrid/DataGrid";
 
 export default function WarehouseList() {
    const { warehouseList, warehouseLoading } = useStore(warehouseStore);
@@ -11,17 +11,21 @@ export default function WarehouseList() {
       getWarehouseList();
    }, []);
 
-   const columns: GridColDef[] = [
-      { field: "name", headerName: "Name", width: 250, type: "number" },
-      { field: "address", headerName: "Address", width: 150 },
-      { field: "city", headerName: "City", width: 150 },
-      { field: "state", headerName: "State", width: 60 },
-      { field: "zip", headerName: "Zip", width: 120 },
+   const columns = [
+      { header: "Name", accessor: "name", visible: true },
+      { header: "Address", accessor: "address", visible: true },
+      { header: "City", accessor: "city", visible: true },
+      { header: "State", accessor: "state", visible: true },
+      { header: "Zip", accessor: "zip", visible: true },
    ];
 
-   return warehouseLoading ? (
-      <LinearProgress />
-   ) : (
-      <DataGrid rows={warehouseList} columns={columns} rowHeight={30} columnHeaderHeight={35} />
+   return (
+      <div className={styles.WarehouseListContainer}>
+         {warehouseLoading ? (
+            <div>Loading...</div>
+         ) : (
+            <DataGrid data={warehouseList} columns={columns} enableFilters={true} />
+         )}
+      </div>
    );
 }

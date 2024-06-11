@@ -3,29 +3,18 @@ import PharmacistList from "../components/Pharmacist/PharmacistList";
 import PharamcySelectionCard from "../components/Pharmacy/PharmacyCard";
 import "./PharmacyPage.scss";
 import PharmacyList2 from "../components/Pharmacy/PharmacyList2";
-import PharmacyList from "../components/Pharmacy/PharmacyList";
+import DeliveryList2 from "../components/Delivery/DeliveryList2";
 
 export default function PharmacyPage() {
-   const handleDeliveryButtonHover = (tmp: any) => {
-      console.log(tmp);
-   };
 
    return (
       <div className="PharmacyPage slide-in-from-top">
          <PharmacyList2></PharmacyList2>
          {/* <PharmacyList selectForPharmacist={false} /> */}
-         <PharmacistList selectForPharmacy={true} enablePagination={false} />
+         <PharmacistList enablePagination={false} />
          <PharamcySelectionCard />
-         {/* <Button sx={{ height: 50, width: "fit-content" }} onMouseOver={handleDeliveryButtonHover}>
-            Deliveries
-         </Button> */}
-         <DeliveryList height={"100px"} maxHeight={"100px"} enablePagination={true} />
-         {/* <div>
-            <CalendarIcon height={50} width={50} />
-            <CalendarIcon height={50} width={50} />
-            <CalendarIcon height={50} width={50} />
-            <CalendarIcon height={50} width={50} />
-         </div> */}
+         {/* <DeliveryList height={"100px"} maxHeight={"100px"} enablePagination={false} /> */}
+         <DeliveryList2 enablePagination></DeliveryList2>
       </div>
    );
 }

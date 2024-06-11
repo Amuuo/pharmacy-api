@@ -90,7 +90,7 @@ export default function PharmacistCard() {
                            enablePagination={false}
                            enableFilters={false}
                         /> */}
-                        <PharmacyList2 />
+                        <PharmacyList2 maxHeight={200} />
                      </div>
                   </CardContent>
                </Card>

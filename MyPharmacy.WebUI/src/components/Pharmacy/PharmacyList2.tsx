@@ -1,29 +1,29 @@
 import { useEffect } from "react";
 import { usePharmacistStore } from "../../stores/pharmacistStoreTest";
 import { usePharmacyStore } from "../../stores/pharmacyStoreTest";
-// import { DataGrid } from "../DataGrid/DataGrid";
-
 import styles from "./PharmacyList.module.scss";
-import DataGrid from "../_shared/DataGrid";
 import usePagination from "../../hooks/usePagination";
+import DataGrid from "../_shared/DataGrid/DataGrid";
+
 interface PharmacyListProps {
    selectForPharmacist?: boolean;
    maxHeight?: number;
 }
 
-export default function PharmacyList({ selectForPharmacist, maxHeight }: PharmacyListProps) {
+export default function PharmacyList2({ selectForPharmacist, maxHeight }: PharmacyListProps) {
    const {
       selectedPharmacistPharmacies,
       pharmacyList,
       loading,
       initialLoad,
       fetchPharmacyListByPharmacistId,
+      setPharmacySelection,
    } = usePharmacyStore();
 
    const { selectedPharmacist } = usePharmacistStore();
    const { paginationModel, handlePaginationModelChange } = usePagination({
       page: 0,
-      pageSize: 25,
+      pageSize: 50,
    });
    const { fetchPharmacyList } = usePharmacyStore();
 
@@ -35,6 +35,10 @@ export default function PharmacyList({ selectForPharmacist, maxHeight }: Pharmac
       if (selectForPharmacist && selectedPharmacist?.id)
          fetchPharmacyListByPharmacistId(selectedPharmacist?.id);
    }, [selectedPharmacist]);
+
+   const handleRowSelect = (selectedRow: any) => {
+      setPharmacySelection(selectedRow);
+   };
 
    const columns = [
       { header: "Name", accessor: "name", visible: true },
@@ -55,6 +59,8 @@ export default function PharmacyList({ selectForPharmacist, maxHeight }: Pharmac
             <DataGrid
                data={selectForPharmacist ? selectedPharmacistPharmacies : pharmacyList}
                columns={columns}
+               enableFilters={false}
+               onRowSelect={handleRowSelect} // Pass the callback
             />
          )}
       </div>

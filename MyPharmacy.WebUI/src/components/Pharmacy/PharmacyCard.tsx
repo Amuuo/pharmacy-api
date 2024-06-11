@@ -34,21 +34,30 @@ export default function PharmacySelectionCard() {
                      className={styles.card_media}
                   />
                   <div className={styles.card_header}>
-                     <h2>{currentPharmacy.name}</h2>
+                     <span>{currentPharmacy.name}</span>
                   </div>
                   <div className={styles.card_content}>
                      <div>
                         <label>Address</label>
-                        <span>{currentPharmacy.address}</span>
                         <span>
+                           {currentPharmacy.address}
+                           <br />
                            {`${currentPharmacy.city}, ${currentPharmacy.state} ${currentPharmacy.zip}`}
                         </span>
                      </div>
                      <div>
                         <label className={styles.text_secondary} style={{ color: "$dark-blue" }}>
-                           RX Filled
+                           RX #
                         </label>
-                        <p>{currentPharmacy.prescriptionsFilled}</p>
+                        <span style={{ fontSize: "24px" }}>
+                           {currentPharmacy.prescriptionsFilled}
+                        </span>
+                     </div>
+                     <div>
+                        <label className={styles.text_secondary} style={{ color: "$dark-blue" }}>
+                           ID
+                        </label>
+                        <span style={{ fontSize: "24px" }}>{currentPharmacy.id}</span>
                      </div>
                   </div>
                </div>
