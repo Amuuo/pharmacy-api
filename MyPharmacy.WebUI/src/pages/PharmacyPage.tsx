@@ -4,16 +4,17 @@ import PharamcySelectionCard from "../components/Pharmacy/PharmacyCard";
 import "./PharmacyPage.scss";
 import PharmacyList2 from "../components/Pharmacy/PharmacyList2";
 import DeliveryList2 from "../components/Delivery/DeliveryList2";
+import PharmacyList from "../components/Pharmacy/PharmacyList";
 
 export default function PharmacyPage() {
    return (
       <div className="PharmacyPage slide-in-from-top">
-         <PharmacyList2></PharmacyList2>
+         <PharmacyList></PharmacyList>
          {/* <PharmacyList selectForPharmacist={false} /> */}
          <PharmacistList enablePagination={false} />
          <PharamcySelectionCard />
          {/* <DeliveryList height={"100px"} maxHeight={"100px"} enablePagination={false} /> */}
-         <DeliveryList2 enablePagination></DeliveryList2>
+         <DeliveryList enablePagination></DeliveryList>
       </div>
    );
 }

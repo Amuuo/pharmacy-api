@@ -4,9 +4,9 @@ import AddPharmacistForm from "../components/Pharmacist/AddPharmacistForm";
 import PharmacistCard from "../components/Pharmacist/PharmacistCard";
 import PharmacistList from "../components/Pharmacist/PharmacistList";
 import { pharmacyStore } from "../stores/pharmacyStore";
-import "./PharmacistManager.scss";
+import "./PharmacistPage.scss";
 
-export default function PharmacistManager() {
+export default function PharmacistPage() {
    useStore(pharmacyStore);
 
    const navigate = useNavigate();

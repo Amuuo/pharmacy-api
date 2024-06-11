@@ -1,4 +1,5 @@
 export type Delivery = {
+   [x: string]: number;
    Id: number;
    WarehouseId: number;
    PharmacyId: number;

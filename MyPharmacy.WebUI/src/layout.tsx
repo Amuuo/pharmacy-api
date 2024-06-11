@@ -6,7 +6,7 @@ export default function Layout() {
    return (
       <>
          <Header />
-         <SidebarNav />
+         {/* <SidebarNav /> */}
          <Outlet />
       </>
    );

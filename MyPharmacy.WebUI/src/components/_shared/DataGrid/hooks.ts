@@ -6,13 +6,18 @@ export function useColumnResizing(columns) {
    const startWidth = useRef<number>(0);
    const startX = useRef<number>(0);
 
-   const handleResizeMouseDown = (index: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+   const handleResizeMouseDown = (
+      index: number,
+      event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+   ) => {
       event.preventDefault();
       event.stopPropagation();
       document.body.style.userSelect = "none";
       document.body.style.cursor = "grabbing";
 
-      startWidth.current = event.currentTarget.parentElement ? event.currentTarget.parentElement.offsetWidth : 0;
+      startWidth.current = event.currentTarget.parentElement
+         ? event.currentTarget.parentElement.offsetWidth
+         : 0;
       startX.current = event.clientX;
       resizingColumn.current = index;
 
@@ -42,7 +47,7 @@ export function useColumnResizing(columns) {
    return { columnWidths, handleResizeMouseDown };
 }
 
-export function useFilters(data, columns) {
+export function useFilters(data) {
    const [filters, setFilters] = useState<{ [key: string]: string }>({});
 
    const handleFilterChange = (accessor: string, value: string) => {
@@ -64,7 +69,9 @@ export function useFilters(data, columns) {
 }
 
 export function useSort(data) {
-   const [sortConfig, setSortConfig] = useState<{ key: string; direction: "asc" | "desc" } | null>(null);
+   const [sortConfig, setSortConfig] = useState<{ key: string; direction: "asc" | "desc" } | null>(
+      null,
+   );
 
    const handleSort = (accessor: string) => {
       let direction: "asc" | "desc" = "asc";

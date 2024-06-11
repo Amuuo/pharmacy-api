@@ -1,8 +1,6 @@
-import { LinearProgress } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useEffect } from "react";
 import { useStore } from "effector-react";
 import moment from "moment";
-import { useEffect, useMemo } from "react";
 import usePagination from "../../hooks/usePagination";
 import { Delivery } from "../../models/delivery";
 import {
@@ -12,6 +10,7 @@ import {
 } from "../../stores/deliveryStore";
 import { usePharmacyStore } from "../../stores/pharmacyStoreTest";
 import styles from "./DeliveryList.module.scss";
+import DataGrid from "../_shared/DataGrid/DataGrid";
 
 interface DeliveryListProps {
    height?: string;
@@ -21,10 +20,10 @@ interface DeliveryListProps {
 
 export default function DeliveryList({
    height = "150px",
-   maxHeight,
+   maxHeight = "300px",
    enablePagination = true,
 }: DeliveryListProps) {
-   const { selectedPharmacy } = usePharmacyStore(); //useStore(pharmacyStore);
+   const { selectedPharmacy } = usePharmacyStore();
    const { deliveryList, loading, totalCount } = useStore(deliveryStore);
    const { paginationModel, handlePaginationModelChange } = usePagination({
       page: 0,
@@ -49,59 +48,46 @@ export default function DeliveryList({
          currency: "USD",
       }).format(value);
 
-   const columns = useMemo<GridColDef<Delivery>[]>(
-      () => [
-         { field: "drugName", headerName: "Drug Name", width: 120 },
-         { field: "unitCount", headerName: "Count", width: 60, type: "number" },
+      const columns: Column[] = [
+         { header: "Drug Name", accessor: "drugName", visible: true },
+         { header: "Count", textAlign: "right", accessor: "unitCount", visible: true },
          {
-            field: "unitPrice",
-            headerName: "Price",
-            width: 80,
-            type: "number",
-            valueFormatter: (params) => formatCurrency(params.value),
+            header: "Price",
+            accessor: "unitPrice",
+            textAlign: "right",
+            visible: true,
+            render: (item: Delivery) => formatCurrency(item.unitPrice),
          },
          {
-            field: "totalPrice",
-            headerName: "Total",
-            width: 100,
-            type: "number",
-            valueFormatter: (params) => formatCurrency(params.value),
+            header: "Total",
+            accessor: "totalPrice",
+            textAlign: "right",
+            visible: true,
+            render: (item: Delivery) => formatCurrency(item.totalPrice ?? 0),
          },
          {
-            field: "deliveryDate",
-            headerName: "Delivery Date",
-            width: 150,
-            valueFormatter: (params) => moment(params.value).format("MM-DD-YY"),
+            header: "Delivery Date",
+            accessor: "deliveryDate",
+            textAlign: "center",
+            visible: true,
+            render: (item: Delivery) => moment(item.DeliveryDate).format("MM-DD-YY"),
          },
-      ],
-      [],
-   );
+      ];
+      
 
    const isPharmacySelected = () => {
       return !selectedPharmacy?.id && deliveryList.length === 0;
    };
 
    return isPharmacySelected() ? null : loading ? (
-      <LinearProgress sx={{ gridArea: "order" }} />
+      <div>Loading...</div>
    ) : deliveryList.length === 0 ? (
       <h3 style={{ textAlign: "center" }} className="delivery-list">
          No deliveries found...
       </h3>
    ) : (
-      <DataGrid
-         sx={{ height: height, maxHeight: maxHeight }}
-         className={styles.delivery_list}
-         columns={columns}
-         rows={deliveryList}
-         rowHeight={30}
-         rowCount={totalCount}
-         pagination={enablePagination ? true : undefined}
-         paginationMode={enablePagination ? "server" : undefined}
-         paginationModel={enablePagination ? paginationModel : undefined}
-         pageSizeOptions={[5, 10, 15]}
-         onPaginationModelChange={enablePagination ? handlePaginationModelChange : undefined}
-         hideFooter={!enablePagination}
-         columnHeaderHeight={35}
-      />
+      <div className={styles.DeliveryListContainer} style={{ maxHeight: maxHeight }}>
+         <DataGrid data={deliveryList} columns={columns} enableFilters={false} />
+      </div>
    );
 }

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { pharmacistStore } from "../../stores/pharmacistStore";
 import PharmacyList from "../Pharmacy/PharmacyList";
 import styles from "./PharmacistCard.module.scss";
-import PharmacyList2 from "../Pharmacy/PharmacyList2";
+import PharmacyList2 from "../Pharmacy/PharmacyList";
 import { usePharmacistStore } from "../../stores/pharmacistStoreTest";
 
 export default function PharmacistCard() {

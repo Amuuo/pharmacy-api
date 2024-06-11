@@ -1,5 +1,5 @@
 import DeliveryList from "../components/Delivery/DeliveryList";
-import DeliveryList2 from "../components/Delivery/DeliveryList2";
+import DeliveryList2 from "../components/Delivery/DeliveryList";
 import styles from "./DeliveryPage.module.scss";
 
 export default function DeliveryPage() {
