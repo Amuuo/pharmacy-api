@@ -48,32 +48,31 @@ export default function DeliveryList({
          currency: "USD",
       }).format(value);
 
-      const columns: Column[] = [
-         { header: "Drug Name", accessor: "drugName", visible: true },
-         { header: "Count", textAlign: "right", accessor: "unitCount", visible: true },
-         {
-            header: "Price",
-            accessor: "unitPrice",
-            textAlign: "right",
-            visible: true,
-            render: (item: Delivery) => formatCurrency(item.unitPrice),
-         },
-         {
-            header: "Total",
-            accessor: "totalPrice",
-            textAlign: "right",
-            visible: true,
-            render: (item: Delivery) => formatCurrency(item.totalPrice ?? 0),
-         },
-         {
-            header: "Delivery Date",
-            accessor: "deliveryDate",
-            textAlign: "center",
-            visible: true,
-            render: (item: Delivery) => moment(item.DeliveryDate).format("MM-DD-YY"),
-         },
-      ];
-      
+   const columns: Column[] = [
+      { header: "Drug Name", accessor: "drugName", visible: true },
+      { header: "Count", textAlign: "right", accessor: "unitCount", visible: true },
+      {
+         header: "Price",
+         accessor: "unitPrice",
+         textAlign: "right",
+         visible: true,
+         render: (item: Delivery) => formatCurrency(item.unitPrice),
+      },
+      {
+         header: "Total",
+         accessor: "totalPrice",
+         textAlign: "right",
+         visible: true,
+         render: (item: Delivery) => formatCurrency(item.totalPrice ?? 0),
+      },
+      {
+         header: "Delivery Date",
+         accessor: "deliveryDate",
+         textAlign: "center",
+         visible: true,
+         render: (item: Delivery) => moment(item.DeliveryDate).format("MM-DD-YY"),
+      },
+   ];
 
    const isPharmacySelected = () => {
       return !selectedPharmacy?.id && deliveryList.length === 0;
