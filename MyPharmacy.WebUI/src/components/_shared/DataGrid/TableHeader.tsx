@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./DataGrid.module.scss";
 
 interface Column {
@@ -13,10 +13,8 @@ interface TableHeaderProps {
    columnWidths: string[];
    sortConfig: { key: string; direction: "asc" | "desc" } | null;
    handleSort: (accessor: string) => void;
-   handleResizeMouseDown: (
-      index: number,
-      event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-   ) => void;
+   handleResizeMouseDown: (index: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+   tableHeight: number;
 }
 
 export const TableHeader: React.FC<TableHeaderProps> = ({
@@ -25,7 +23,11 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
    sortConfig,
    handleSort,
    handleResizeMouseDown,
+   tableHeight,
 }) => {
+   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
+   const [disablePointerEvents, setDisablePointerEvents] = useState(false);
+
    return (
       <thead>
          <tr>
@@ -33,8 +35,11 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
                <th
                   key={index}
                   style={{ width: columnWidths[index], textAlign: column.textAlign || "center" }}
-                  className={styles.table_header_cell}
-                  onClick={() => handleSort(column.accessor)}>
+                  className={`${hoveredColumn === index ? styles.highlight_border : ""} ${
+                     disablePointerEvents ? styles.noPointerEvents : ""
+                  } ${styles.table_header_cell} ${styles.glassEffect}`}
+                  onClick={() => handleSort(column.accessor)}
+               >
                   {column.header}
                   {sortConfig?.key === column.accessor && (
                      <span style={{ fontSize: "20px" }} className={styles.sortArrow}>
@@ -43,7 +48,10 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
                   )}
                   <div
                      className={styles.resize_handle}
+                     style={{ height: `${tableHeight}px` }}
                      onMouseDown={(e) => handleResizeMouseDown(index, e)}
+                     onMouseEnter={() => setHoveredColumn(index)}
+                     onMouseLeave={() => setHoveredColumn(null)}
                   />
                </th>
             ))}

@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import styles from "./DataGrid.module.scss";
 import { TableHeader } from "./TableHeader";
 import { TableBody } from "./TableBody";
 import { FilterRow } from "./FilterRow";
-import { useColumnWidths, useFilters, useSort } from "./hooks";
+import { useColumnResizing, useFilters, useSort } from "./hooks";
 
 interface Column {
    header: string;
@@ -30,27 +30,30 @@ export default function DataGrid({
    onDoubleClick,
 }: DataGridProps) {
    const visibleColumns = columns.filter((col) => col.visible !== false);
-   const { columnWidths, handleResizeMouseDown } = useColumnWidths(visibleColumns);
+   const { columnWidths, handleResizeMouseDown } = useColumnResizing(visibleColumns);
    const { filters, handleFilterChange, filteredData } = useFilters(data, visibleColumns);
    const { sortConfig, handleSort, sortedData } = useSort(filteredData);
+   const tableRef = useRef<HTMLTableElement>(null);
+   const [tableHeight, setTableHeight] = useState<number>(0);
+
+   useEffect(() => {
+      if (tableRef.current) {
+         setTableHeight(tableRef.current.offsetHeight);
+      }
+   }, [data, columns]);
 
    return (
       <div className={styles.data_grid_container}>
-         {enableFilters && (
-            <FilterRow
-               columns={visibleColumns}
-               filters={filters}
-               onFilterChange={handleFilterChange}
-            />
-         )}
+         {enableFilters && <FilterRow columns={visibleColumns} filters={filters} onFilterChange={handleFilterChange} />}
          <div className={styles.data_grid_wrapper}>
-            <table className={styles.table}>
+            <table className={styles.table} ref={tableRef}>
                <TableHeader
                   columns={visibleColumns}
                   columnWidths={columnWidths}
                   sortConfig={sortConfig}
                   handleSort={handleSort}
                   handleResizeMouseDown={handleResizeMouseDown}
+                  tableHeight={tableHeight}
                />
                <TableBody
                   data={sortedData}

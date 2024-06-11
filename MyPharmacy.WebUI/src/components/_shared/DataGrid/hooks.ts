@@ -1,13 +1,14 @@
 import { useState, useRef, useMemo } from "react";
 
-export function useColumnWidths(columns: any[]) {
-   const [columnWidths, setColumnWidths] = useState(columns.map((col: { width: any; }) => col.width || "auto"));
+export function useColumnResizing(columns) {
+   const [columnWidths, setColumnWidths] = useState(columns.map((col) => col.width || "auto"));
    const resizingColumn = useRef<number | null>(null);
    const startWidth = useRef<number>(0);
    const startX = useRef<number>(0);
 
    const handleResizeMouseDown = (index: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       event.preventDefault();
+      event.stopPropagation();
       document.body.style.userSelect = "none";
       document.body.style.cursor = "grabbing";
 
@@ -19,7 +20,7 @@ export function useColumnWidths(columns: any[]) {
          const movementX = moveEvent.clientX - startX.current;
          const newWidth = Math.max(startWidth.current + movementX, 0);
 
-         setColumnWidths((prevWidths: any) => {
+         setColumnWidths((prevWidths) => {
             const newWidths = [...prevWidths];
             newWidths[resizingColumn.current as number] = `${newWidth}px`;
             return newWidths;
@@ -41,7 +42,7 @@ export function useColumnWidths(columns: any[]) {
    return { columnWidths, handleResizeMouseDown };
 }
 
-export function useFilters(data: any, columns) {
+export function useFilters(data, columns) {
    const [filters, setFilters] = useState<{ [key: string]: string }>({});
 
    const handleFilterChange = (accessor: string, value: string) => {
@@ -52,7 +53,7 @@ export function useFilters(data: any, columns) {
    };
 
    const filteredData = useMemo(() => {
-      return data.filter((item: { [x: string]: { toString: () => string; }; }) => {
+      return data.filter((item) => {
          return Object.keys(filters).every((key) => {
             return item[key].toString().toLowerCase().includes(filters[key].toLowerCase());
          });
@@ -62,7 +63,7 @@ export function useFilters(data: any, columns) {
    return { filters, handleFilterChange, filteredData };
 }
 
-export function useSort(data: unknown) {
+export function useSort(data) {
    const [sortConfig, setSortConfig] = useState<{ key: string; direction: "asc" | "desc" } | null>(null);
 
    const handleSort = (accessor: string) => {
