@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./DataGrid.module.scss";
+import styles from "../DataGrid.module.scss";
 
 interface Column {
    header: string;
@@ -44,8 +44,8 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
                   onClick={() => handleSort(column.accessor)}>
                   {column.header}
                   {sortConfig?.key === column.accessor && (
-                     <span style={{ fontSize: "20px" }} className={styles.sortArrow}>
-                        {sortConfig.direction === "asc" ? "▲" : "↴"}
+                     <span style={{ fontSize: "10px", position: 'absolute', right: 10 }}>
+                        {sortConfig.direction === "asc" ? "▲" : "▼"}
                      </span>
                   )}
                   <div

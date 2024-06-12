@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import styles from "./DataGrid.module.scss";
+import React from "react";
+import styles from "../DataGrid.module.scss";
 
 interface Column {
    header: string;
@@ -13,6 +13,8 @@ interface TableBodyProps {
    columns: Column[];
    onRowSelect?: (selectedRow: any) => void;
    onDoubleClick?: (selectedRow: any) => void;
+   selectedRow: number | null;
+   setSelectedRow: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 export const TableBody: React.FC<TableBodyProps> = ({
@@ -20,9 +22,9 @@ export const TableBody: React.FC<TableBodyProps> = ({
    columns,
    onRowSelect,
    onDoubleClick,
+   selectedRow,
+   setSelectedRow,
 }) => {
-   const [selectedRow, setSelectedRow] = useState<number | null>(null);
-
    const handleRowClick = (item: any, rowIndex: number) => {
       setSelectedRow(rowIndex);
       if (onRowSelect) onRowSelect(item);

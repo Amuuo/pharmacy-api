@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./DataGrid.module.scss";
+import styles from "../DataGrid.module.scss";
 
 interface Column {
    header: string;

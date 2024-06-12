@@ -1,11 +1,14 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import styles from "./DataGrid.module.scss";
-import { TableHeader } from "./TableHeader";
-import { TableBody } from "./TableBody";
-import { FilterRow } from "./FilterRow";
-import { useColumnResizing, useFilters, useSort } from "./hooks";
+import { TableHeader } from "./components/TableHeader";
+import { TableBody } from "./components/TableBody";
+import { FilterRow } from "./components/FilterRow";
+import { useColumnResizing } from "./hooks/useColumnResizing";
+import { useFilters } from "./hooks/useFilters";
+import { useSort } from "./hooks/useSort";
+import { useRowNavigation } from "./hooks/useRowNavigation";
 
-interface Column {
+export interface Column {
    header: string;
    accessor: string;
    width?: string;
@@ -31,16 +34,18 @@ export default function DataGrid({
 }: DataGridProps) {
    const visibleColumns = columns.filter((col) => col.visible !== false);
    const { columnWidths, handleResizeMouseDown } = useColumnResizing(visibleColumns);
-   const { filters, handleFilterChange, filteredData } = useFilters(data, visibleColumns);
+   const { filters, handleFilterChange, filteredData } = useFilters(data);
    const { sortConfig, handleSort, sortedData } = useSort(filteredData);
    const tableRef = useRef<HTMLTableElement>(null);
-   const [tableHeight, setTableHeight] = useState<number>(0);
+   const [selectedRow, setSelectedRow] = useState<number | null>(null);
 
-   useEffect(() => {
-      if (tableRef.current) {
-         setTableHeight(tableRef.current.offsetHeight);
-      }
-   }, [data, columns]);
+   useRowNavigation({
+      selectedRow,
+      setSelectedRow,
+      sortedData,
+      onRowSelect,
+      tableRef,
+   });
 
    return (
       <div className={styles.data_grid_container}>
@@ -59,13 +64,15 @@ export default function DataGrid({
                   sortConfig={sortConfig}
                   handleSort={handleSort}
                   handleResizeMouseDown={handleResizeMouseDown}
-                  tableHeight={tableHeight}
+                  tableHeight={tableRef.current?.clientHeight || 0}
                />
                <TableBody
                   data={sortedData}
                   columns={visibleColumns}
                   onRowSelect={onRowSelect}
                   onDoubleClick={onDoubleClick}
+                  selectedRow={selectedRow}
+                  setSelectedRow={setSelectedRow}
                />
             </table>
          </div>
