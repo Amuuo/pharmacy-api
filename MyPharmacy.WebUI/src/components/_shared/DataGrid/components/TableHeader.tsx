@@ -44,7 +44,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
                   onClick={() => handleSort(column.accessor)}>
                   {column.header}
                   {sortConfig?.key === column.accessor && (
-                     <span style={{ fontSize: "10px", position: 'absolute', right: 10 }}>
+                     <span style={{ fontSize: "10px", position: "absolute", right: 10 }}>
                         {sortConfig.direction === "asc" ? "▲" : "▼"}
                      </span>
                   )}
