@@ -3,7 +3,7 @@ import { usePharmacistStore } from "../../stores/pharmacistStoreTest";
 import { usePharmacyStore } from "../../stores/pharmacyStoreTest";
 import styles from "./PharmacyList.module.scss";
 import usePagination from "../../hooks/usePagination";
-import DataGrid from "../_shared/DataGrid/DataGrid";
+import DataGrid, { Column } from "../_shared/DataGrid/DataGrid";
 
 interface PharmacyListProps {
    selectForPharmacist?: boolean;
@@ -40,10 +40,10 @@ export default function PharmacyList2({ selectForPharmacist, maxHeight }: Pharma
       setPharmacySelection(selectedRow);
    };
 
-   const columns = [
+   const columns: Column[] = [
       { header: "Name", accessor: "name", visible: true },
       { header: "City", accessor: "city", visible: true },
-      { header: "State", accessor: "state", visible: true },
+      { header: "State", accessor: "state", visible: true, textAlign: "center" },
       { header: "Zip", accessor: "zip", visible: true },
       { header: "Address", accessor: "address", visible: true },
       { header: "RX Filled", accessor: "prescriptionsFilled", visible: true },

@@ -12,7 +12,6 @@
 
    font-family: "Roboto Mono", sans-serif;
    font-size: 12px;
-   // padding: 15px;
 }
 
 .data_grid_container {
@@ -30,6 +29,7 @@
    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.48);
    border-radius: 5px;
    height: auto;
+   text-overflow: ellipsis !important;
 }
 
 thead {
@@ -60,6 +60,7 @@ tbody {
 }
 
 td {
+   max-width: 125px;
    overflow: hidden;
    text-overflow: ellipsis;
 }
@@ -180,3 +181,9 @@ th:hover {
       background: rgb(182, 193, 237) !important;
    }
 }
+
+.sortIndicator {
+   font-size: 10px;
+   position: absolute;
+   right: 10px;
+ }

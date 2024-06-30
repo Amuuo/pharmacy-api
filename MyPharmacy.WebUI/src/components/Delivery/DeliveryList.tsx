@@ -15,14 +15,12 @@ interface DeliveryListProps {
 }
 
 export default function DeliveryList({
-   height = "150px",
    maxHeight = "300px",
-   enablePagination = true,
 }: DeliveryListProps) {
    const { selectedPharmacy } = usePharmacyStore();
-   const { deliveryList, loading, totalCount, fetchDeliveryList, fetchDeliveryListByPharmacyId } =
+   const { deliveryList, loading, fetchDeliveryList, fetchDeliveryListByPharmacyId } =
       useDeliveryStore();
-   const { paginationModel, handlePaginationModelChange } = usePagination({
+   const { paginationModel } = usePagination({
       page: 0,
       pageSize: 15,
    });

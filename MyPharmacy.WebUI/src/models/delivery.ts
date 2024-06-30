@@ -1,11 +1,10 @@
 export type Delivery = {
-   [x: string]: number;
    Id: number;
-   WarehouseId: number;
-   PharmacyId: number;
+   WarehouseId: number | undefined;
+   PharmacyId: number | undefined;
    DrugName: string;
-   UnitCount: number;
-   UnitPrice: number;
-   TotalPrice?: number;
-   DeliveryDate: Date;
+   UnitCount: number | undefined;
+   UnitPrice: number | undefined;
+   TotalPrice?: number | undefined;
+   DeliveryDate: Date | undefined;
 };

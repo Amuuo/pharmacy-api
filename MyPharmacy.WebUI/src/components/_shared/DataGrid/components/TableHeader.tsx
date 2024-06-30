@@ -31,6 +31,13 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
    const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
    const [disablePointerEvents, setDisablePointerEvents] = useState(false);
 
+   const getClassName = (index: number) => {
+      const classes = [styles.table_header_cell, styles.glassEffect];
+      if (hoveredColumn === index) classes.push(styles.highlight_border);
+      if (disablePointerEvents) classes.push(styles.noPointerEvents);
+      return classes.join(" ");
+   };
+
    return (
       <thead>
          <tr>
@@ -38,13 +45,11 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
                <th
                   key={index}
                   style={{ width: columnWidths[index], textAlign: column.textAlign || "center" }}
-                  className={`${hoveredColumn === index ? styles.highlight_border : ""} ${
-                     disablePointerEvents ? styles.noPointerEvents : ""
-                  } ${styles.table_header_cell} ${styles.glassEffect}`}
+                  className={getClassName(index)}
                   onClick={() => handleSort(column.accessor)}>
                   {column.header}
                   {sortConfig?.key === column.accessor && (
-                     <span style={{ fontSize: "10px", position: "absolute", right: 10 }}>
+                     <span className={styles.sortIndicator}>
                         {sortConfig.direction === "asc" ? "▲" : "▼"}
                      </span>
                   )}

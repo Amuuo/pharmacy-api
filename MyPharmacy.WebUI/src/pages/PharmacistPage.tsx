@@ -1,6 +1,5 @@
 import { useStore } from "effector-react";
 import { useNavigate } from "react-router-dom";
-import AddPharmacistForm from "../components/Pharmacist/AddPharmacistForm";
 import PharmacistCard from "../components/Pharmacist/PharmacistCard";
 import PharmacistList from "../components/Pharmacist/PharmacistList";
 import { pharmacyStore } from "../stores/pharmacyStore";

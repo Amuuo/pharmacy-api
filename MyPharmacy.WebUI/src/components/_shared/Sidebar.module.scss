@@ -1,0 +1,83 @@
+/* Sidebar.module.scss */
+.container {
+   position: relative;
+   grid-column: 1;
+   grid-row-start: 1;
+   grid-row-end: 4;
+
+   span {
+      position: absolute;
+   }
+ }
+ 
+ .sidebar {
+   width: 150px;
+   background: var(--linear-gradient-blue);
+   color: white;
+   transition: width 350ms ease-out;
+   position: relative;
+   overflow: hidden;
+   height: inherit;
+   // border: 3px solid white;
+   ul {       
+       li {
+         height: 45px;
+         text-align: center;;
+         display: flex;
+         justify-content: end;
+         align-items: center;
+       }
+    
+   }
+ }
+ 
+ .closed {
+   width: 0px
+   // transform: translateX(-80%);
+
+ }
+ 
+ ul {
+   list-style-type: none;
+   padding: 0;
+ }
+ 
+ li {
+   padding: 20px;
+   border-bottom: 1px solid #444;
+ }
+ 
+ .toggleButton {
+   position: relative;
+   // display: block;
+   top: 10px;
+   right: -10px;
+   z-index: 1000;
+   height: 30px;
+   background-color: #265c88;
+   color: white;
+   border-radius: 40%;
+   border: none;
+   padding: 5px;
+   cursor: pointer;   
+   will-change: transform;
+   transition: all 350ms ease-out;
+ }
+
+ .toggleButtonClosed {
+   right: -10px;
+   transform: rotate(-180deg);
+ }
+ 
+ .expandButton {
+   position: absolute;
+   top: 10px;
+   left: 10px;
+   z-index: 1000;
+   background-color: #555;
+   color: white;
+   border: none;
+   padding: 10px;
+   cursor: pointer;
+ }
+ 

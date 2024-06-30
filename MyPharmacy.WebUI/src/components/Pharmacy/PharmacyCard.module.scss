@@ -17,6 +17,8 @@
    overflow: hidden;
    background: var(--gradient-background);
    border: var(--border-style);
+   border-top-left-radius: 2rem !important;
+   border-top-right-radius: 2rem !important;
    border-radius: 0.3rem;
    position: relative;
    animation: grow-in 200ms cubic-bezier(0.63, -0.23, 0.53, 1);
@@ -55,7 +57,7 @@
    transition: 1s;
    //   text-align-last: center;
    img {
-      border-radius: 0 0 30px 30px;
+      border-radius: 0 0 15px 15px;
       box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.397);
    }
 
@@ -99,15 +101,16 @@
       div {
          // border: 4px ridge whitesmoke;
          background: linear-gradient(
-            rgba(148, 210, 255, 0.5) 0%,
+            rgba(179, 209, 231, 0.74) 0%,
             rgba(98, 27, 69, 0.5) 10%,
-            rgb(43, 7, 39) 93%,
-            rgba(216, 176, 218, 0.5) 100%
+            rgb(43, 7, 39) 87%,
+            rgba(115, 35, 119, 0.5) 100%
          );
          padding: 0 1em 0.7em 1em;
          border-radius: 5px;
-         border: 1px solid rgb(7, 22, 42);
+         border: 3px inset rgb(76, 123, 194);
          border-top: 1px solid rgb(107, 205, 189);
+         // border-bottom: none;
          // width: 10px;
          // min-width: 130px;
          box-shadow: 1px 1px 7px rgba(119, 40, 255, 0.397);

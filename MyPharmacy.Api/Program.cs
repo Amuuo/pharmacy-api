@@ -1,8 +1,12 @@
 using System.Data;
+using FastEndpoints;
+using FastEndpoints.Swagger;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using MyPharmacy.Api.Endpoints.Pharmacy;
 using MyPharmacy.Api.Extensions;
 using MyPharmacy.Data;
+using NSwag.Generation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,17 +17,31 @@ builder.Host.UseConfiguredLogger();
 builder
     .Services.AddMemoryCache()
     .AddCors()
-    .AddCustomizedSwaggerGen()
     .AddScoped<IDbConnection>(sp => new SqlConnection(connectionString))
-    .AddConfiguredDbContextPool<IPharmacyDbContext, PharmacyDbContext>(connectionString)
+    .AddConfiguredDbContextPool<IPharmacyDbContext, PharmacyDbContext>(
+        connectionString)
     .AddPharmacyServices()
     .AddHttpContextAccessor()
-    .AddControllers()
-    .Services.AddGraphQLServer();
+    .AddFastEndpoints()
+    .SwaggerDocument(c =>
+    {
+        c.DocumentSettings = s =>
+        {
+            s.Title       = "MyPharmacy API";
+            s.Description = "MyPharmacy API";
+            s.Version     = "v1";
+        };
+    })
+    .AddCustomizedSwaggerGen();
+
+    //.AddControllers();
 
 builder.WebHost.UseIIS().UseIISIntegration().UseContentRoot(Directory.GetCurrentDirectory());
 
 var app = builder.Build();
+
+app.UseFastEndpoints()
+    .UseSwaggerGen();
 
 if (app.Environment.IsDevelopment())
 {
@@ -37,15 +55,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapGraphQL();
-});
 
-app.UseCors(policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
-    .UseAuthorization()
-    .UseAuthentication();
+//app.UseCors(policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
+//    .UseAuthorization()
+//    .UseAuthentication();
 
-app.MapControllers();
+//app.MapControllers();
 
 await app.RunAsync();
