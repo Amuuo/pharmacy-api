@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../DataGrid.module.scss";
+import styles from "./FilterRow.module.scss";
 
 interface Column {
    header: string;
@@ -8,11 +8,11 @@ interface Column {
 
 interface FilterRowProps {
    columns: Column[];
-   filters: { [key: string]: string };
+   filters: Record<string, string>;
    onFilterChange: (accessor: string, value: string) => void;
 }
 
-export const FilterRow: React.FC<FilterRowProps> = ({ columns, filters, onFilterChange }) => {
+function FilterRow({ columns, filters, onFilterChange }: FilterRowProps) {
    return (
       <div className={`${styles.filters} ${styles.glassEffect}`}>
          {columns.map((column) => (
@@ -27,4 +27,6 @@ export const FilterRow: React.FC<FilterRowProps> = ({ columns, filters, onFilter
          ))}
       </div>
    );
-};
+}
+
+export default FilterRow;

@@ -23,5 +23,16 @@
 }
 
 .PharmacyListContainer {
+   width: 100%;
+   /* Remove fixed heights or absolute positioning */
+   /* height: 100%; */
+   overflow: hidden;
    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+   /* Other styles... */
+}
+
+@media screen and (max-width: 768px) {
+   .pharmacyListContainer {
+      /* Adjust as necessary for responsiveness */
+   }
 }

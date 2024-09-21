@@ -1,20 +1,21 @@
-import { fileURLToPath, URL } from "node:url";
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import fs from "fs";
-import path from "path";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { fileURLToPath, URL } from 'node:url';
+import fs from 'fs';
+import path from 'path';
 
 const baseFolder =
    process.env.APPDATA !== undefined && process.env.APPDATA !== ""
       ? `${process.env.APPDATA}/ASP.NET/https`
       : `${process.env.HOME}/.aspnet/https`;
-
-const certificateArg = process.argv
-   .map((arg) => arg.match(/--name=(?<value>.+)/i))
-   .filter(Boolean)[0];
-
-const certificateName = certificateArg
-   ? certificateArg.groups.value
+    // Start of Selection
+    
+    const certificateArg = process.argv
+       .map((arg) => arg.match(/--name=(.+)/i))
+       .filter(Boolean)[0];
+    
+    const certificateName = certificateArg
+       ? certificateArg[1]
    : "reactapp";
 
 if (!certificateName) {

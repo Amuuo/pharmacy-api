@@ -3,20 +3,20 @@ import moment from "moment";
 import usePagination from "../../hooks/usePagination";
 import { Delivery } from "../../models/delivery";
 
-import { usePharmacyStore } from "../../stores/pharmacyStoreTest";
+import { usePharmacyStore } from "../../stores/pharmacyStore";
 import styles from "./DeliveryList.module.scss";
 import DataGrid, { Column } from "../_shared/DataGrid/DataGrid";
 import { useDeliveryStore } from "../../stores/deliveryStore";
 
 interface DeliveryListProps {
    height?: string;
-   maxHeight?: string;
+   maxHeight?: number;  // Add maxHeight prop
    enablePagination?: boolean;
 }
 
 export default function DeliveryList({
    height = "150px",
-   maxHeight = "300px",
+   maxHeight = 400,  // Set maxHeight to 400px
    enablePagination = true,
 }: DeliveryListProps) {
    const { selectedPharmacy } = usePharmacyStore();
@@ -29,17 +29,11 @@ export default function DeliveryList({
 
    useEffect(() => {
       if (selectedPharmacy?.id) {
-         fetchDeliveryListByPharmacyId(selectedPharmacy.id);
+         fetchDeliveryListByPharmacyId(selectedPharmacy.id, paginationModel);
       } else {
          fetchDeliveryList(paginationModel);
       }
-   }, [selectedPharmacy?.id]);
-
-   useEffect(() => {
-      if (!selectedPharmacy?.id) {
-         fetchDeliveryList(paginationModel);
-      }
-   }, [paginationModel]);
+   }, [selectedPharmacy?.id, fetchDeliveryList, fetchDeliveryListByPharmacyId, paginationModel.page, paginationModel.pageSize]);
 
    const formatCurrency = (value: number) =>
       new Intl.NumberFormat("en-US", {
@@ -74,18 +68,28 @@ export default function DeliveryList({
    ];
 
    const isPharmacySelected = () => {
-      return !selectedPharmacy?.id && deliveryList.length === 0;
+      return !selectedPharmacy?.id && deliveryList?.length === 0;
    };
 
    return isPharmacySelected() ? null : loading ? (
       <div>Loading...</div>
-   ) : deliveryList.length === 0 ? (
+   ) : deliveryList?.length === 0 ? (
       <h3 style={{ textAlign: "center" }} className="delivery-list">
          No deliveries found...
       </h3>
    ) : (
       <div className={styles.DeliveryListContainer} style={{ maxHeight: maxHeight }}>
-         <DataGrid data={deliveryList} columns={columns} enableFilters={false} />
+         <DataGrid
+            data={deliveryList || []}  // Ensure deliveryList is defined
+            columns={columns}
+            enableFilters={false}
+            pageNumber={paginationModel.page}
+            pageSize={paginationModel.pageSize}
+            totalCount={totalCount}
+            onPageChange={(newPage) => handlePaginationModelChange({ ...paginationModel, page: newPage })}
+            onPageSizeChange={(newSize) => handlePaginationModelChange({ page: 0, pageSize: newSize })}
+            maxHeight={maxHeight}  // Pass maxHeight prop
+         />
       </div>
    );
 }

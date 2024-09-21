@@ -1,20 +1,24 @@
-import DeliveryList from "../components/Delivery/DeliveryList";
-import PharmacistList from "../components/Pharmacist/PharmacistList";
-import PharamcySelectionCard from "../components/Pharmacy/PharmacyCard";
-import "./PharmacyPage.scss";
-import PharmacyList2 from "../components/Pharmacy/PharmacyList2";
-import DeliveryList2 from "../components/Delivery/DeliveryList2";
+import styles from "./PharmacyPage.module.scss";
 import PharmacyList from "../components/Pharmacy/PharmacyList";
+import PharmacistList from "../components/Pharmacist/PharmacistList";
+import DeliveryList from "../components/Delivery/DeliveryList";
+import PharmacyCard from "../components/Pharmacy/PharmacyCard";
 
 export default function PharmacyPage() {
-   return (
-      <div className="PharmacyPage slide-in-from-top">
-         <PharmacyList></PharmacyList>
-         {/* <PharmacyList selectForPharmacist={false} /> */}
-         <PharmacistList enablePagination={false} />
-         <PharamcySelectionCard />
-         {/* <DeliveryList height={"100px"} maxHeight={"100px"} enablePagination={false} /> */}
-         <DeliveryList enablePagination></DeliveryList>
+  return (
+    <div className={styles.pharmacyPage}>
+      <div className={styles.pharmacyList}>
+        <PharmacyList maxHeight={470} />
       </div>
-   );
+      <div className={styles.pharmacyCard}>
+        <PharmacyCard />
+      </div>
+      <div className={styles.pharmacistList}>
+        <PharmacistList maxHeight={250} />
+      </div>
+      <div className={styles.deliveryList}>
+        <DeliveryList maxHeight={400} />
+      </div>
+    </div>
+  );
 }

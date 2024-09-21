@@ -1,101 +1,99 @@
 import { Avatar, Card, CardContent, CardHeader, Typography } from "@mui/material";
-import { useStore } from "effector-react";
 import moment from "moment";
-import { useEffect, useState } from "react";
-import { pharmacistStore } from "../../stores/pharmacistStore";
-import PharmacyList from "../Pharmacy/PharmacyList";
+import { useEffect, useState, useMemo } from "react";
 import styles from "./PharmacistCard.module.scss";
 import PharmacyList2 from "../Pharmacy/PharmacyList";
 import { usePharmacistStore } from "../../stores/pharmacistStoreTest";
 
 export default function PharmacistCard() {
-   //const { selectedPharmacist } = useStore(pharmacistStore);
-   const { selectedPharmacist } = usePharmacistStore();
+  const { selectedPharmacist } = usePharmacistStore();
+  const [isOutgoing, setIsOutgoing] = useState(false);
+  const [currentPharmacist, setCurrentPharmacist] = useState(selectedPharmacist);
 
-   const [isOutgoing, setIsOutgoing] = useState(false);
-   const [currentPharmacist, setCurrentPharmacist] = useState(selectedPharmacist);
-
-   useEffect(() => {
+  useEffect(() => {
+    if (selectedPharmacist?.id) {
       setIsOutgoing(true);
-
-      setTimeout(() => {
-         setCurrentPharmacist(selectedPharmacist);
-         setIsOutgoing(false);
+      const timer = setTimeout(() => {
+        setCurrentPharmacist(selectedPharmacist);
+        setIsOutgoing(false);
       }, 200);
-   }, [selectedPharmacist?.id]);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedPharmacist?.id]);
 
-   const currentPharmacistHireDate = () =>
-      moment(currentPharmacist?.hireDate?.toString(), "YYYY-MM-DD").format("MM-DD-YYYY");
+  const formattedHireDate = useMemo(() => {
+    return currentPharmacist
+      ? moment(currentPharmacist.hireDate).format("MM-DD-YYYY")
+      : "";
+  }, [currentPharmacist]);
 
-   return (
-      <>
-         {!currentPharmacist?.id ? null : (
-            <div className={styles.pharmacist_selection}>
-               <Card
-                  className={`${styles.pharmacist_card} ${isOutgoing ? styles.outgoing : styles.incoming}`}>
-                  <CardHeader
-                     title={`${currentPharmacist.firstName} ${currentPharmacist.lastName}`}
-                     subheader={
-                        <div className={styles.card_buttons} style={{ marginTop: "20px" }}>
-                           <button
-                              className={styles.add_button}
-                              type="button"
-                              title="Assign Pharmacist">
-                              Assign Pharamcist
-                           </button>
-                           <button
-                              className={styles.edit_button}
-                              type="button"
-                              title="Edit Pharmacist">
-                              Edit Pharamcist{" "}
-                           </button>
-                        </div>
-                     }
-                     action={
-                        <Avatar
-                           sx={{
-                              bgcolor: "teal",
-                              height: "60px",
-                              width: "60px",
-                              stroke: "white",
-                              strokeWidth: "5px",
-                           }}
-                           aria-label="recipe">
-                           {selectedPharmacist?.firstName}
-                        </Avatar>
-                     }></CardHeader>
-                  <CardContent className={styles.cardContentStyle}>
-                     <div className={styles.card_body}>
-                        <div className={styles.card_content}>
-                           <div>
-                              <Typography variant="subtitle2"> Age: </Typography>
-                              {currentPharmacist.age}
-                           </div>
-                           <div>
-                              <Typography variant="subtitle2"> Primary RX: </Typography>
-                              {currentPharmacist.primaryRx}
-                           </div>
-                           <div>
-                              <Typography variant="subtitle2"> Hire Date: </Typography>
-                              {currentPharmacistHireDate()}
-                           </div>
-                        </div>
-                     </div>
-                     <div className={styles.pharmacyListContainer}>
-                        <Typography gutterBottom>Assigned Pharmacies:</Typography>
-                        {/* <PharmacyList
-                           columnHeaderHeight={30}
-                           maxHeight={200}
-                           selectForPharmacist={true}
-                           enablePagination={false}
-                           enableFilters={false}
-                        /> */}
-                        <PharmacyList2 maxHeight={200} />
-                     </div>
-                  </CardContent>
-               </Card>
+  if (!currentPharmacist?.id) return null;
+
+  return (
+    <div className={styles.pharmacist_selection}>
+      <Card
+        className={`${styles.pharmacist_card} ${
+          isOutgoing ? styles.outgoing : styles.incoming
+        }`}
+      >
+        <CardHeader
+          title={`${currentPharmacist.firstName} ${currentPharmacist.lastName}`}
+          subheader={
+            <div className={styles.card_buttons}>
+              <button
+                className={styles.add_button}
+                type="button"
+                title="Assign Pharmacist"
+              >
+                Assign Pharmacist
+              </button>
+              <button
+                className={styles.edit_button}
+                type="button"
+                title="Edit Pharmacist"
+              >
+                Edit Pharmacist
+              </button>
             </div>
-         )}
-      </>
-   );
+          }
+          action={
+            <Avatar
+              sx={{
+                bgcolor: "teal",
+                height: 60,
+                width: 60,
+                stroke: "white",
+                strokeWidth: 5,
+              }}
+              aria-label="pharmacist-avatar"
+            >
+              {selectedPharmacist?.firstName?.charAt(0)}
+            </Avatar>
+          }
+        />
+        <CardContent className={styles.cardContentStyle}>
+          <div className={styles.card_body}>
+            <div className={styles.card_content}>
+              <div>
+                <Typography variant="subtitle2">Age:</Typography>
+                <span>{currentPharmacist.age}</span>
+              </div>
+              <div>
+                <Typography variant="subtitle2">Primary RX:</Typography>
+                <span>{currentPharmacist.primaryRx}</span>
+              </div>
+              <div>
+                <Typography variant="subtitle2">Hire Date:</Typography>
+                <span>{formattedHireDate}</span>
+              </div>
+            </div>
+          </div>
+          <div className={styles.pharmacyListContainer}>
+            <Typography gutterBottom>Assigned Pharmacies:</Typography>
+            <PharmacyList2 maxHeight={200} />
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }

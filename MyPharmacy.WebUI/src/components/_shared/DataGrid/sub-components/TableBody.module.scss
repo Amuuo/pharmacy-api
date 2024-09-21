@@ -1,0 +1,20 @@
+.table_cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.selectedRow {
+    background: rgb(74, 94, 176) !important;
+    transition: background 0.2s ease-out;
+    animation: selected-row-animation 5s ease-in-out;
+
+    @starting-style {
+        background: rgb(182, 193, 237) !important;
+    }
+}
+
+@keyframes selected-row-animation {
+    from {
+        background: rgb(182, 193, 237) !important;
+    }
+}

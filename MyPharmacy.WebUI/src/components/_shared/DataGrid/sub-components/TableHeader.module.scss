@@ -1,0 +1,39 @@
+.table_header_cell {
+    position: relative;    
+    height: 26px;
+    width: 100%;
+
+    background: linear-gradient(to top, #3665bd, #3d498d, #566f79);
+    color: #d7d7d7; // Changed color to white for better contrast
+    font-weight: bolder;
+    display: flexbox;
+    flex-direction: row;
+    // justify-content: end;
+    align-items: center;
+}
+
+.highlight_border {
+    border-right: 1px solid rgb(97, 97, 97) !important; /* Example highlight color */
+}
+
+.glassEffect {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);    
+}
+
+.noPointerEvents {
+    pointer-events: none;
+}
+
+.resize_handle {
+    position: absolute;
+    top: 0;
+    right: -5px;
+    width: 10px;
+    height: 100%; /* Adjust based on your design */
+    cursor: col-resize;
+    background-color: rgba(127, 255, 212, 0);
+    z-index: 2;
+}

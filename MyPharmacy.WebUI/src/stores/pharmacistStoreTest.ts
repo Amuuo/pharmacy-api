@@ -32,10 +32,11 @@ export const usePharmacistStore = create<PharmacistState>((set, get) => ({
       selectedPharmacist: pharmacist,
     })),
 
-  fetchPharmacistList: async paginationModel => {
+  fetchPharmacistList: async (paginationModel) => {
     set(state => ({ ...state, loadingPharmacistList: true }));
 
-    const cacheKey = `${paginationModel.page}-${paginationModel.pageSize}`;
+    const pageNumber = paginationModel.page + 1; // **Change: Convert to 1-based numbering**
+    const cacheKey = `${pageNumber}-${paginationModel.pageSize}`; // **Updated cacheKey**
     const cachedData = get().cache[cacheKey];
 
     if (cachedData) {
@@ -49,7 +50,7 @@ export const usePharmacistStore = create<PharmacistState>((set, get) => ({
     }
 
     try {
-      const url = `${import.meta.env.VITE_API_URL}/pharmacist?pageNumber=${paginationModel.page}&pageSize=${paginationModel.pageSize}`;
+      const url = `${import.meta.env.VITE_API_URL}/pharmacist?pageNumber=${pageNumber}&pageSize=${paginationModel.pageSize}`;
       const response = await fetch(url, {
         method: "GET",
       });

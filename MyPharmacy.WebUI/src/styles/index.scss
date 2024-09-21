@@ -70,13 +70,6 @@ $teal-blue: #4ab0d9;
 }
 
 #root {
-   display: grid;
-   grid-template-areas:
-      "header header"
-      "sidebar main"
-      "sidebar footer";
-   grid-template-rows: auto 1fr 50px;
-   grid-template-columns: auto 1fr;
    width: 100%;
    height: 100%;
 }
@@ -181,8 +174,6 @@ $teal-blue: #4ab0d9;
 
 body {
    margin: 0;
-   display: flex;
-   justify-content: center;
    min-width: 320px;
    min-height: 100vh;
    height: 100vh;
